@@ -1,23 +1,6 @@
-import { useState } from "react"
-import { TouchableOpacity, Text, Image, View, TextInput } from "react-native"
-import { SvgUri } from "react-native-svg"
+import { View, Image, Text, TextInput, TouchableOpacity } from "react-native"
 
-import styles from "./style"
-
-const Login = ({ navigation }) => {
-
-    const [email, setEmail] = useState(null)
-    const [password, setPassword] = useState(null)
-
-    const checkLogin = () => {
-        console.log(email)
-
-        if(email=="teste"){
-            navigation.navigate('Home')
-
-        }
-    }
-
+const Cadastro = ({ navigation }) => {
     return(
         <View style={styles.container}>
             <View style={styles.imageContainer}>
@@ -71,4 +54,4 @@ const Login = ({ navigation }) => {
     )
 }
 
-export default Login
+export default Cadastro

@@ -7,6 +7,7 @@ const Stack = createNativeStackNavigator()
 
 import Login from './src/pages/Login';
 import Home from './src/pages/Home';
+import Cadastro from './src/pages/Cadastro';
 
 export default function App() {
   return (
@@ -14,6 +15,7 @@ export default function App() {
       <Stack.Navigator>
         <Stack.Screen name='YE Gestão Saúde' component={Login} />
         <Stack.Screen name='Home' component={Home} />
+        <Stack.Screen name='Cadastro' component={Cadastro}></Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );
