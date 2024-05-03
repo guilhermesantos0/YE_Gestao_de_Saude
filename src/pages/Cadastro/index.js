@@ -1,10 +1,19 @@
+import { useState } from "react"
 import { View, Image, Text, TextInput, TouchableOpacity } from "react-native"
+import styles from "./style"
 
 const Cadastro = ({ navigation }) => {
+
+    const [email, setEmail] = useState(null)
+    const [password, setPassword] = useState(null)
+
+    const checksignUp = () => {
+        // nada ainda
+    }
     return(
         <View style={styles.container}>
             <View style={styles.imageContainer}>
-                <Image source={require("./images/logo.png")} style={styles.image}></Image>
+                <Image source={require("../Login/images/logo.png")} style={styles.image}></Image>
             </View>
 
             <View style={styles.inputContainer}>
@@ -23,28 +32,36 @@ const Cadastro = ({ navigation }) => {
                 onChangeText={setPassword}
                 value={password}></TextInput>
 
-                <TouchableOpacity style={styles.loginButtonContainer} onPress={() => checkLogin()}>
-                    <Text style={styles.loginButton}>Login</Text>
+                <Text style={styles.inputLabel}>Confirmar Senha</Text>
+                <TextInput
+                placeholder="******"
+                style={styles.input}
+                secureTextEntry={true}
+                onChangeText={setPassword}
+                value={password}></TextInput>
+
+                <TouchableOpacity style={styles.signUpButtonContainer} onPress={() => checksignUp()}>
+                    <Text style={styles.signUpButton}>Cadastrar</Text>
                 </TouchableOpacity>
             </View>
 
-            <View style={styles.externalLogin}>
+            <View style={styles.externalsignUp}>
                 <Text>Ou entre com:</Text>
 
-                <View style={styles.externalLoginContainer}>
+                <View style={styles.externalsignUpContainer}>
                     <TouchableOpacity>
-                        <Image style={styles.externalLoginImage} source={require("./images/google.png")}></Image>
+                        <Image style={styles.externalsignUpImage} source={require("../Login/images/google.png")}></Image>
                     </TouchableOpacity>
                     
                     <TouchableOpacity>
-                        <Image style={styles.externalLoginImage} source={require("./images/facebook.png")}></Image>
+                        <Image style={styles.externalsignUpImage} source={require("../Login/images/facebook.png")}></Image>
                     </TouchableOpacity>
                 </View>
             </View>
 
-            <View style={styles.signUp}>
-                <Text>Ainda não possui conta?</Text>
-                <TouchableOpacity onPress={() => navigation.navigate('Cadastro')}><Text style={styles.signUpButton}>Cadastre-se</Text></TouchableOpacity>
+            <View style={styles.login}>
+                <Text>Já possui uma conta?</Text>
+                <TouchableOpacity onPress={() => navigation.navigate('YE Gestão Saúde')}><Text style={styles.loginButton}>Entrar</Text></TouchableOpacity>
             </View>
 
             {/* <TouchableOpacity onPress={() => navigation.navigate('SecondScreen')}>
