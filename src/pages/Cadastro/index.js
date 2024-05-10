@@ -61,7 +61,7 @@ const Cadastro = ({ navigation }) => {
 
             <View style={styles.login}>
                 <Text>Já possui uma conta?</Text>
-                <TouchableOpacity onPress={() => navigation.navigate('YE Gestão Saúde')}><Text style={styles.loginButton}>Entrar</Text></TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('Login')}><Text style={styles.loginButton}>Entrar</Text></TouchableOpacity>
             </View>
 
             {/* <TouchableOpacity onPress={() => navigation.navigate('SecondScreen')}>

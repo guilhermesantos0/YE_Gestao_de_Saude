@@ -6,15 +6,15 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator()
 
 import Login from './src/pages/Login';
-import Home from './src/pages/Home';
+import Consultas from './src/pages/Consultas';
 import Cadastro from './src/pages/Cadastro';
 
 export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name='YE Gestão Saúde' component={Login} />
-        <Stack.Screen name='Home' component={Home} />
+        <Stack.Screen name='Login' component={Login} />
+        <Stack.Screen name='Consultas' component={Consultas} options={{ title: 'YE Gestão de Saúde'}} />
         <Stack.Screen name='Cadastro' component={Cadastro}></Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
