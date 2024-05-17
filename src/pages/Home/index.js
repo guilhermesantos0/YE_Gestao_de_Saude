@@ -5,7 +5,7 @@ import HomeNavigation from "../../components/HomeNavigation"
 
 import styles from "./style"
 
-const Consultas = ({ navigation }) => {
+const Home = ({ navigation }) => {
 
     const [pression, setPression] = useState('10/6')
     const [glicemy, setGlicemy] = useState('70 mg/dl a 100 mg/ld')
@@ -53,4 +53,4 @@ const Consultas = ({ navigation }) => {
     )
 }
 
-export default Consultas
+export default Home

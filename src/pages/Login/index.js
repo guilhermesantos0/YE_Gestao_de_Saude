@@ -11,7 +11,7 @@ const Login = ({ navigation }) => {
 
     const checkLogin = () => {
         console.log(email)
-        navigation.navigate('Consultas')
+        navigation.navigate('Home')
     }
 
     return(
