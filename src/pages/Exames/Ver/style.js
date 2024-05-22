@@ -22,8 +22,6 @@ const styles = StyleSheet.create({
     header: {
       fontWeight: 'bold',
       backgroundColor: '#d3d3d3',
-      alignItems: 'center',
-      justifyContent: 'center',
     },
 });
 
