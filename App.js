@@ -10,6 +10,7 @@ import Home from './src/pages/Home';
 import Cadastro from './src/pages/Cadastro';
 import Exames from './src/pages/Exames';
 import Adicionar from './src/pages/Exames/Adicionar';
+import Comparar from './src/pages/Exames/Comparar';
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
         <Stack.Screen name='Cadastro' component={Cadastro}></Stack.Screen>
         <Stack.Screen name='Exames' component={Exames}></Stack.Screen>
         <Stack.Screen name='Exames/Adicionar'component={Adicionar} options={{ title: 'Adicionar Exame'}}></Stack.Screen>
+        <Stack.Screen name='Exames/Comparar'component={Comparar} options={{ title: 'Comparar Exames'}}></Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );
