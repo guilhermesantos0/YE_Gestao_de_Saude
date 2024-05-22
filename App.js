@@ -9,6 +9,7 @@ import Login from './src/pages/Login';
 import Home from './src/pages/Home';
 import Cadastro from './src/pages/Cadastro';
 import Exames from './src/pages/Exames';
+import Adicionar from './src/pages/Exames/Adicionar';
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
         <Stack.Screen name='Home' component={Home} options={{ title: 'YE Gestão de Saúde'}} />
         <Stack.Screen name='Cadastro' component={Cadastro}></Stack.Screen>
         <Stack.Screen name='Exames' component={Exames}></Stack.Screen>
+        <Stack.Screen name='Exames/Adicionar'component={Adicionar} options={{ title: 'Adicionar Exame'}}></Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );
