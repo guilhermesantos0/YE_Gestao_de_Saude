@@ -13,6 +13,7 @@ import Adicionar from './src/pages/Exames/Adicionar';
 import Comparar from './src/pages/Exames/Comparar';
 import VerExames from './src/pages/Exames/Ver';
 import Excluir from './src/pages/Exames/Excluir';
+import Consultas from './src/pages/Consultas'
 
 export default function App() {
   return (
@@ -26,6 +27,7 @@ export default function App() {
         <Stack.Screen name='Exames/Comparar'component={Comparar} options={{ title: 'Comparar Exames'}}></Stack.Screen>
         <Stack.Screen name='Exames/Ver'component={VerExames} options={{ title: 'Últimos Exames'}}></Stack.Screen>
         <Stack.Screen name='Exames/Excluir'component={Excluir} options={{ title: 'Excluir Exame'}}></Stack.Screen>
+        <Stack.Screen name='Consultas' component={Consultas}></Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );
