@@ -7,7 +7,7 @@ const Exames = ({ navigation }) => {
         <View>
             <View style={styles.profile}>
                 <Image style={styles.profileImage} source={require('./images/profile.jpg')}></Image>
-                <Text style={styles.profileName}>Nome Sobrenome</Text>
+                <Text style={styles.profileName}>Murilo Orsi</Text>
             </View>
 
             <View style={styles.examsContainer}>

@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { TouchableOpacity, Text, Image, View, TextInput } from "react-native"
+import { TouchableOpacity, Text, Image, View, TextInput, Keyboard, Pressable } from "react-native"
 import { SvgUri } from "react-native-svg"
 
 import styles from "./style"
@@ -15,7 +15,7 @@ const Login = ({ navigation }) => {
     }
 
     return(
-        <View style={styles.container}>
+        <Pressable onPress={Keyboard.dismiss} style={styles.container}>
             <View style={styles.imageContainer}>
                 <Image source={require("./images/logo.png")} style={styles.image}></Image>
             </View>
@@ -63,7 +63,7 @@ const Login = ({ navigation }) => {
             {/* <TouchableOpacity onPress={() => navigation.navigate('SecondScreen')}>
                 <Text>Ir para Segunda Página</Text>
             </TouchableOpacity> */}
-        </View>
+        </Pressable>
     )
 }
 

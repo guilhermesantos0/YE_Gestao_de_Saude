@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Modal, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Modal, TextInput, Touchable, Pressable } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 
 import styles from './style';
 
@@ -28,19 +29,23 @@ const Consultas = ({ navigation }) => {
   };
 
   const handleAdd = () => {
-    const newItem = {
-      id: data.length + 1,
-      title: newTitle,
-      date: newDate,
-      time: newTime,
-      place: newPlace,
-    };
-    setData([...data, newItem]);
-    setModalVisible(false);
-    setNewTitle('');
-    setNewDate('');
-    setNewTime('');
-    setNewPlace('');
+
+    if(newTitle != '' && newDate != '' && newTime != '' && newPlace != ''){
+      const newItem = {
+        id: data.length + 1,
+        title: newTitle,
+        date: newDate,
+        time: newTime,
+        place: newPlace,
+      };
+      setData([...data, newItem]);
+      setModalVisible(false);
+      setNewTitle('');
+      setNewDate('');
+      setNewTime('');
+      setNewPlace('');
+    }
+
   };
   
     return (
@@ -67,7 +72,15 @@ const Consultas = ({ navigation }) => {
             ))}
           </ScrollView>
           <TouchableOpacity style={styles.addButton} onPress={() => setModalVisible(true)}>
-            <Text style={styles.addButtonText}>Adicionar</Text>
+            <LinearGradient
+            colors={['#B0B0B0bb', '#8E8E8Ebb']}
+            start={{x: 0, y: 0}}
+            end={{x: 0.5, y: 0.5}}
+            locations={[0.4, 1]}
+            style={styles.linearGradient}
+            >
+              <Text style={styles.addButtonText}>Adicionar</Text>
+            </LinearGradient>
           </TouchableOpacity>
           <Modal
             animationType="slide"
@@ -75,41 +88,38 @@ const Consultas = ({ navigation }) => {
             visible={modalVisible}
             onRequestClose={() => setModalVisible(false)}
           >
-            <View style={styles.modalContainer}>
-              <View style={styles.modalContent}>
+            <TouchableOpacity onPress={() => setModalVisible(false)} style={styles.modalContainer}>
+              <Pressable style={styles.modalContent}>
                 <Text style={styles.modalTitle}>Adicionar Consulta</Text>
-                <Text>Digite o nome:</Text>
                 <TextInput
                   style={styles.input}
-                  placeholder="Escreva aqui"
+                  placeholder="Nome"
                   value={newTitle}
                   onChangeText={setNewTitle}
                 />
-                <Text>Digite o local:</Text>
                 <TextInput
                   style={styles.input}
-                  placeholder="Escreva aqui"
+                  placeholder="Local"
                   value={newPlace}
                   onChangeText={setNewPlace}
                 />
-                <Text>Digite a data e hora:</Text>
                 <TextInput
                   style={styles.input}
-                  placeholder="Escreva aqui"
+                  placeholder="Data"
                   value={newDate}
                   onChangeText={setNewDate}
                 />
                 <TextInput
                   style={styles.input}
-                  placeholder="Escreva aqui"
+                  placeholder="Hora"
                   value={newTime}
                   onChangeText={setNewTime}
                 />
                 <TouchableOpacity style={styles.saveButton} onPress={handleAdd}>
                   <Text style={styles.saveButtonText}>Salvar</Text>
                 </TouchableOpacity>
-              </View>
-            </View>
+              </Pressable>
+            </TouchableOpacity>
           </Modal>
         </View>
     );

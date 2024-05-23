@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { View, Image, Text, TextInput, TouchableOpacity } from "react-native"
+import { View, Image, Text, TextInput, TouchableOpacity, Keyboard, Pressable } from "react-native"
 import styles from "./style"
 
 const Cadastro = ({ navigation }) => {
@@ -11,7 +11,7 @@ const Cadastro = ({ navigation }) => {
         // nada ainda
     }
     return(
-        <View style={styles.container}>
+        <Pressable onPress={Keyboard.dismiss} style={styles.container}>
             <View style={styles.imageContainer}>
                 <Image source={require("../Login/images/logo.png")} style={styles.image}></Image>
             </View>
@@ -63,11 +63,7 @@ const Cadastro = ({ navigation }) => {
                 <Text>Já possui uma conta?</Text>
                 <TouchableOpacity onPress={() => navigation.navigate('Login')}><Text style={styles.loginButton}>Entrar</Text></TouchableOpacity>
             </View>
-
-            {/* <TouchableOpacity onPress={() => navigation.navigate('SecondScreen')}>
-                <Text>Ir para Segunda Página</Text>
-            </TouchableOpacity> */}
-        </View>
+        </Pressable>
     )
 }
 

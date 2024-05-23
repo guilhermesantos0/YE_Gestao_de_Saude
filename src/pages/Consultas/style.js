@@ -57,10 +57,15 @@ const styles = StyleSheet.create({
       bottom: 10,
       left: 10,
       right: 10,
-      backgroundColor: 'green',
-      padding: 15,
-      borderRadius: 5,
+      borderRadius: 3,
+      borderWidth: 2,
+      borderColor: '#5B5B5B',
+    },
+    linearGradient: {
       alignItems: 'center',
+      padding: 15,
+      width: '100%',
+      height: '100%'
     },
     addButtonText: {
       color: 'white',
@@ -92,7 +97,7 @@ const styles = StyleSheet.create({
       paddingLeft: 10,
     },
     saveButton: {
-      backgroundColor: 'blue',
+      backgroundColor: '#005F29',
       padding: 10,
       borderRadius: 5,
       alignItems: 'center',

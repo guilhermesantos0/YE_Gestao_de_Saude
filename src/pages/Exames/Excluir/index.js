@@ -41,8 +41,7 @@ const Excluir = () => {
             </View>
         </ScrollView>
         <TouchableOpacity style={styles.deleteButton} onPress={handleDelete}>
-            {/* <Image source={require('./images/trash.png')} style={styles.deleteIcon} /> */}
-            <Text>E</Text>
+            <Image source={require('../../../../assets/trash.png')} style={styles.deleteIcon} />
         </TouchableOpacity>
         </View>
     );
