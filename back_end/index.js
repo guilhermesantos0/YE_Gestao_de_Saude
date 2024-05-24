@@ -2,7 +2,7 @@ const express = require('express');
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
 
-const config = require('../config.json');
+// const config = require('../config.json');
 
 console.log(process.env)
 
@@ -11,12 +11,12 @@ const port = 3000;
 
 app.use(bodyParser.json());
 
-const db = mysql.createConnection({
-    host: config.mysql.host,
-    user: 'root',
-    password: 'mysqlguilherme',
-    database: 'mydatabase'
-})
+// const db = mysql.createConnection({
+//     host: config.mysql.host,
+//     user: 'root',
+//     password: 'mysqlguilherme',
+//     database: 'mydatabase'
+// })
 
 
 app.listen(3000, () => {
