@@ -1,54 +1,60 @@
-import { useState } from "react"
-import { TouchableOpacity, Text, Image, View, TextInput, Keyboard, Pressable } from "react-native"
-import { SvgUri } from "react-native-svg"
+import React, { useState } from "react";
+import { TouchableOpacity, Text, Image, View, TextInput, Keyboard, Pressable } from "react-native";
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import styles from "./style"
+import styles from "./style";
 
 const Login = ({ navigation }) => {
+    const [email, setEmail] = useState(null);
+    const [password, setPassword] = useState(null);
 
-    const [email, setEmail] = useState(null)
-    const [password, setPassword] = useState(null)
-
-    const checkLogin = () => {
-        console.log(email)
-        navigation.navigate('Home')
-    }
+    const checkLogin = async () => {
+        try {
+            const response = await axios.post('http://192.168.0.172:3000/login', { email, password });
+            if (response.data.userId) {
+                await AsyncStorage.setItem('userId', response.data.userId.toString());
+                navigation.navigate('Home');
+            }
+        } catch (error) {
+            console.error('Erro ao fazer login:', error);
+            Alert.alert('Erro', 'Erro ao fazer login');
+        }
+    };
 
     return(
         <Pressable onPress={Keyboard.dismiss} style={styles.container}>
             <View style={styles.imageContainer}>
-                <Image source={require("./images/logo.png")} style={styles.image}></Image>
+                <Image source={{ uri: 'https://via.placeholder.com/150' }} style={styles.image}></Image>
             </View>
 
             <View style={styles.inputContainer}>
                 <Text style={styles.inputLabel}>Login</Text>
                 <TextInput
-                placeholder="email@exemplo.com"
-                style={styles.input}
-                onChangeText={setEmail}
-                value={email}></TextInput>
-
+                    placeholder="email@exemplo.com"
+                    style={styles.input}
+                    onChangeText={setEmail}
+                    value={email}
+                />
                 <Text style={styles.inputLabel}>Senha</Text>
                 <TextInput
-                placeholder="******"
-                style={styles.input}
-                secureTextEntry={true}
-                onChangeText={setPassword}
-                value={password}></TextInput>
-
-                <TouchableOpacity style={styles.loginButtonContainer} onPress={() => checkLogin()}>
+                    placeholder="******"
+                    style={styles.input}
+                    secureTextEntry={true}
+                    onChangeText={setPassword}
+                    value={password}
+                />
+                <TouchableOpacity style={styles.loginButtonContainer} onPress={checkLogin}>
                     <Text style={styles.loginButton}>Login</Text>
                 </TouchableOpacity>
             </View>
 
             <View style={styles.externalLogin}>
                 <Text>Ou entre com:</Text>
-
                 <View style={styles.externalLoginContainer}>
                     <TouchableOpacity>
                         <Image style={styles.externalLoginImage} source={require("./images/google.png")}></Image>
                     </TouchableOpacity>
-                    
                     <TouchableOpacity>
                         <Image style={styles.externalLoginImage} source={require("./images/facebook.png")}></Image>
                     </TouchableOpacity>
@@ -57,14 +63,12 @@ const Login = ({ navigation }) => {
 
             <View style={styles.signUp}>
                 <Text>Ainda não possui conta?</Text>
-                <TouchableOpacity onPress={() => navigation.navigate('Cadastro')}><Text style={styles.signUpButton}>Cadastre-se</Text></TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('Cadastro')}>
+                    <Text style={styles.signUpButton}>Cadastre-se</Text>
+                </TouchableOpacity>
             </View>
-
-            {/* <TouchableOpacity onPress={() => navigation.navigate('SecondScreen')}>
-                <Text>Ir para Segunda Página</Text>
-            </TouchableOpacity> */}
         </Pressable>
-    )
-}
+    );
+};
 
-export default Login
+export default Login;
