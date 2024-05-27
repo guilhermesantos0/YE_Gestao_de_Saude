@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Modal, TextInput, Touchable, Pressable } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import axios from 'axios'
 
 import styles from './style';
 
@@ -31,14 +32,10 @@ const Consultas = ({ navigation }) => {
   const handleAdd = () => {
 
     if(newTitle != '' && newDate != '' && newTime != '' && newPlace != ''){
-      const newItem = {
-        id: data.length + 1,
-        title: newTitle,
-        date: newDate,
-        time: newTime,
-        place: newPlace,
-      };
-      setData([...data, newItem]);
+      const userId = 1
+      axios.post('http://localhost:3000/addConsulta', {
+        userId, newTitle, newDate, newTime, newPlace
+      })
       setModalVisible(false);
       setNewTitle('');
       setNewDate('');
