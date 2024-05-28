@@ -16,40 +16,42 @@ USE `ye_gestao_saude`;
 CREATE TABLE IF NOT EXISTS `abim_lab_test` (
   `lab_tests` varchar(500) DEFAULT NULL,
   `ref_ranges` varchar(500) DEFAULT NULL
-);
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
 # ------------------------------------------------------------
 # SCHEMA DUMP FOR TABLE: consults
 # ------------------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS `consults` (
-  `id` int DEFAULT NULL,
-  `userId` int DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` int(11) DEFAULT NULL,
   `name` varchar(50) DEFAULT NULL,
   `date` varchar(50) DEFAULT NULL,
   `time` varchar(50) DEFAULT NULL,
-  `place` varchar(50) DEFAULT NULL
-);
+  `place` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`)
+) ENGINE = InnoDB AUTO_INCREMENT = 5 DEFAULT CHARSET = utf8mb4;
 
 # ------------------------------------------------------------
 # SCHEMA DUMP FOR TABLE: exams
 # ------------------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS `exams` (
-  `id` int DEFAULT NULL,
+  `id` int(11) DEFAULT NULL,
   `name` varchar(50) DEFAULT NULL,
   `result` varchar(50) DEFAULT NULL,
   `date` varchar(50) DEFAULT NULL,
   KEY `FK__1` (`id`),
   CONSTRAINT `FK__1` FOREIGN KEY (`id`) REFERENCES `users` (`id`)
-);
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
 # ------------------------------------------------------------
 # SCHEMA DUMP FOR TABLE: medicamentos
 # ------------------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS `medicamentos` (
-  `id` int NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `farmaco` varchar(255) DEFAULT NULL,
   `detentor` varchar(255) DEFAULT NULL,
   `medicamento` varchar(255) DEFAULT NULL,
@@ -59,48 +61,48 @@ CREATE TABLE IF NOT EXISTS `medicamentos` (
   `data_inclusao` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id` (`id`)
-);
+) ENGINE = InnoDB AUTO_INCREMENT = 1198 DEFAULT CHARSET = utf8mb4;
 
 # ------------------------------------------------------------
 # SCHEMA DUMP FOR TABLE: user_data
 # ------------------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS `user_data` (
-  `id` int DEFAULT NULL,
-  `weight` int DEFAULT NULL,
-  `height` int DEFAULT NULL,
+  `id` int(11) DEFAULT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `cpf` varchar(50) DEFAULT NULL,
+  `weight` int(11) DEFAULT NULL,
+  `height` int(11) DEFAULT NULL,
   `bornDate` varchar(50) DEFAULT NULL,
   KEY `FK__users` (`id`),
   CONSTRAINT `FK__users` FOREIGN KEY (`id`) REFERENCES `users` (`id`)
-);
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
 # ------------------------------------------------------------
 # SCHEMA DUMP FOR TABLE: user_medicines
 # ------------------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS `user_medicines` (
-  `id` int DEFAULT NULL,
-  `medicineId` int DEFAULT NULL,
+  `id` int(11) DEFAULT NULL,
+  `medicineId` int(11) DEFAULT NULL,
   KEY `FK__users_medicines` (`id`),
   KEY `FK__medicamentos_medicines` (`medicineId`),
   CONSTRAINT `FK__medicamentos_medicines` FOREIGN KEY (`medicineId`) REFERENCES `medicamentos` (`id`),
   CONSTRAINT `FK__users_medicines` FOREIGN KEY (`id`) REFERENCES `users` (`id`)
-);
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
 # ------------------------------------------------------------
 # SCHEMA DUMP FOR TABLE: users
 # ------------------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS `users` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `cpf` varchar(50) DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(50) DEFAULT NULL,
-  `senha` varchar(50) DEFAULT NULL,
+  `password` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `cpf` (`cpf`),
   UNIQUE KEY `email` (`email`),
   KEY `id` (`id`)
-);
+) ENGINE = InnoDB AUTO_INCREMENT = 8 DEFAULT CHARSET = utf8mb4;
 
 # ------------------------------------------------------------
 # DATA DUMP FOR TABLE: abim_lab_test
@@ -2023,6 +2025,29 @@ VALUES
 # DATA DUMP FOR TABLE: consults
 # ------------------------------------------------------------
 
+INSERT INTO
+  `consults` (`id`, `userId`, `name`, `date`, `time`, `place`)
+VALUES
+  (1, 1, 'ksjdkajsn', 'jdjdjd', 'ndndndndn', 'jsjsnd');
+INSERT INTO
+  `consults` (`id`, `userId`, `name`, `date`, `time`, `place`)
+VALUES
+  (2, 1, 'kajskakdns', 'kzjxn', 'hzuxhsbdb', 'hshzbzn');
+INSERT INTO
+  `consults` (`id`, `userId`, `name`, `date`, `time`, `place`)
+VALUES
+  (
+    3,
+    1,
+    'Murilo',
+    '27/05/2024',
+    '15:48',
+    'Hospital São Camilo'
+  );
+INSERT INTO
+  `consults` (`id`, `userId`, `name`, `date`, `time`, `place`)
+VALUES
+  (4, 1, 'Consulta 1', '11', '33', 'Casa');
 
 # ------------------------------------------------------------
 # DATA DUMP FOR TABLE: exams
@@ -28372,6 +28397,10 @@ VALUES
 # DATA DUMP FOR TABLE: user_data
 # ------------------------------------------------------------
 
+INSERT INTO
+  `user_data` (`id`, `name`, `cpf`, `weight`, `height`, `bornDate`)
+VALUES
+  (7, 'Nome', 'cpf', 1, 2, 'aaa');
 
 # ------------------------------------------------------------
 # DATA DUMP FOR TABLE: user_medicines
@@ -28382,6 +28411,10 @@ VALUES
 # DATA DUMP FOR TABLE: users
 # ------------------------------------------------------------
 
+INSERT INTO
+  `users` (`id`, `email`, `password`)
+VALUES
+  (7, 'email', 'senha');
 
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
