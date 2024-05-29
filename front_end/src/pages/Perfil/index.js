@@ -80,7 +80,7 @@ const EditProfile = ({ navigation }) => {
             <TextInput
                 style={styles.input}
                 placeholder="Peso"
-                value={`${weight} Kg`}
+                value={`${weight} kg`}
                 onChangeText={setWeight}
             />
             <TextInput
