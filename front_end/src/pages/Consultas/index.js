@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Modal, TextInput, Pressable } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import styles from './style';
 
@@ -13,16 +14,22 @@ const Consultas = ({ navigation }) => {
     const [newDate, setNewDate] = useState('');
     const [newTime, setNewTime] = useState('');
     const [newPlace, setNewPlace] = useState('');
-    const userId = 1;
+    const [userId, setUserId] = useState(null);
 
     useEffect(() => {
-        axios.get(`http://192.168.0.172:3000/getUserConsults/${userId}`)
+        const fetchConsults = async () => {
+            const userId = await AsyncStorage.getItem("userId");
+            setUserId(userId);
+            axios.get(`http://192.168.0.172:3000/getUserConsults/${userId}`)
             .then(response => {
                 setData(response.data);
             })
             .catch(error => {
                 console.error('Erro ao buscar consultas:', error);
-            });
+            }); 
+        }
+
+        fetchConsults();
     }, []);
 
     const toggleExpand = (id) => {
@@ -44,7 +51,7 @@ const Consultas = ({ navigation }) => {
                 place: newPlace,
             })
             .then(response => {
-                console.log('Consulta adicionada com sucesso', response);
+                console.log('Consulta adicionada com sucesso');
                 setData([...data, {
                     id: response.data.insertId,  // Supondo que o ID retornado é insertId
                     name: newTitle,

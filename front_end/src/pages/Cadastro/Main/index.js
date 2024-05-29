@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Image, Text, TextInput, TouchableOpacity, Keyboard, Pressable } from "react-native";
+import { View, Image, Text, TextInput, TouchableOpacity, Keyboard, Pressable, Alert } from "react-native";
 import styles from "./style";
 
 const Cadastro = ({ navigation }) => {
@@ -8,18 +8,22 @@ const Cadastro = ({ navigation }) => {
     const [confirmPassword, setConfirmPassword] = useState(null);
 
     const navigateToCompleteProfile = () => {
-        if (password !== confirmPassword) {
-            alert('As senhas não coincidem');
-            return;
+        if(email !== '' && password !== '' && confirmPassword !== ''){
+            if (password !== confirmPassword) {
+                alert('As senhas não coincidem');
+                return;
+            }
+    
+            navigation.navigate('CompleteProfile', { email, password });
+        }else{
+            Alert.alert('Preencha todos os dados!')
         }
-
-        navigation.navigate('CompleteProfile', { email, password });
     };
 
     return(
         <Pressable onPress={Keyboard.dismiss} style={styles.container}>
             <View style={styles.imageContainer}>
-                <Image source={{ uri: 'https://via.placeholder.com/150' }} style={styles.image}></Image>
+                <Image source={require("./images/logo.png")} style={styles.image}></Image>
             </View>
 
             <View style={styles.inputContainer}>

@@ -7,6 +7,7 @@ const Stack = createNativeStackNavigator()
 
 import Login from './src/pages/Login';
 import Home from './src/pages/Home';
+import EditProfile from './src/pages/Perfil';
 import Cadastro from './src/pages/Cadastro/Main';
 import UserData from './src/pages/Cadastro/UserData'
 import Exames from './src/pages/Exames';
@@ -23,7 +24,8 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name='Login' component={Login} />
-        <Stack.Screen name='Home' component={Home} options={{ title: 'YE Gestão de Saúde'}} />
+        <Stack.Screen name='Home' component={Home} options={{ title: 'YE Gestão de Saúde', headerShown: false }}  />
+        <Stack.Screen name='Perfil' component={EditProfile} />
         <Stack.Screen name='Cadastro' component={Cadastro}></Stack.Screen>
         <Stack.Screen name='CompleteProfile' component={UserData}></Stack.Screen>
         <Stack.Screen name='Exames' component={Exames}></Stack.Screen>

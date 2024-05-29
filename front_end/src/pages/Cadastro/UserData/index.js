@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, Keyboard, Pressable } from "react-native";
+import { View, Image, Text, TextInput, TouchableOpacity, Keyboard, Pressable, Alert } from "react-native";
 import axios from 'axios';
 import styles from "./style";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const CompleteProfile = ({ route, navigation }) => {
     const { email, password } = route.params;
@@ -12,9 +13,11 @@ const CompleteProfile = ({ route, navigation }) => {
     const [bornDate, setBornDate] = useState(null);
 
     const completeProfile = () => {
-        axios.post('http://192.168.0.172:3000/signup', { email, password, name, cpf, weight, height, bornDate })
-            .then(response => {
+        if(name !== '' && cpf !== '' && weight !== '' && height !== '' && bornDate !== ''){
+            axios.post('http://192.168.0.172:3000/signup', { email, password, name, cpf, weight, height, bornDate })
+            .then(async response => {
                 if (response.status === 200) {
+                    await AsyncStorage.setItem('userId', response.data.insertId.toString());
                     console.log('Cadastro completado com sucesso');
                     navigation.navigate('Home');
                 }
@@ -23,10 +26,16 @@ const CompleteProfile = ({ route, navigation }) => {
                 console.error('Erro ao completar cadastro:', error);
                 alert('Erro ao completar cadastro. Tente novamente.');
             });
+        }else{
+            Alert.alert("Preencha todos os dados!");
+        }
     };
 
     return(
         <Pressable onPress={Keyboard.dismiss} style={styles.container}>
+            <View style={styles.imageContainer}>
+                <Image source={require("./images/logo.png")} style={styles.image}></Image>
+            </View>
             <View style={styles.inputContainer}>
                 <Text style={styles.inputLabel}>Nome</Text>
                 <TextInput

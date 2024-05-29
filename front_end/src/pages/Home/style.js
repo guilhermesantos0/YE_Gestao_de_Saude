@@ -1,13 +1,18 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
-    line: {
+    header: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
         alignItems: 'center',
-        marginTop: 20
-        // borderBottomWidth: '80%'
+        padding: 10,
+        backgroundColor: '#f8f8f8',
+        marginTop: 20,
+        height: 80
     },
-    title: {
-        fontSize: 20
+    headerTitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
     },
     profile: {
         width: '100%',

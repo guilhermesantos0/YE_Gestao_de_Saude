@@ -40,6 +40,13 @@ const Home = ({ navigation }) => {
 
     return (
         <View>
+            <View style={styles.header}>
+                <Text style={styles.headerTitle}>YE Gestão Saúde</Text>
+                <TouchableOpacity style={styles.profileButton} onPress={() => navigation.navigate('Perfil')}>
+                    <Text style={styles.profileButtonText}>Editar Perfil</Text>
+                </TouchableOpacity>
+            </View>
+
             <View style={styles.profile}>
                 <Image style={styles.profileImage} source={require('./images/profile.jpg')}></Image>
                 <Text style={styles.profileName}>{name}</Text>

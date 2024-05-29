@@ -1,22 +1,12 @@
 const express = require('express');
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
-const session = require('express-session');
 require('dotenv').config();
-
-// const config = require('../config.json');
 
 const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
-app.use(session({
-    secret: 'seu_segredo_aqui',
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false } // Altere para true se estiver usando HTTPS
-}));
 
 const db = mysql.createConnection({
     host: process.env.MYSQLHOST,
@@ -48,7 +38,6 @@ app.post('/login', (req, res) => {
         return;
       }
       if (results.length > 0) {
-        req.session.userId = results[0].id;
         res.status(200).send({ message: 'Login bem-sucedido', userId: results[0].id });
       } else {
         res.status(401).send('Credenciais inválidas');
@@ -68,7 +57,6 @@ app.post('/signup', (req, res) => {
           return res.status(500).json({ error: 'Erro ao iniciar transação', details: err.message });
       }
 
-      // Inserir na tabela users
       db.query(insertUserQuery, [email, password], (err, result) => {
           if (err) {
               console.error('Erro ao inserir na tabela users:', err);
@@ -79,7 +67,6 @@ app.post('/signup', (req, res) => {
 
           const userId = result.insertId;
 
-          // Inserir na tabela user_data
           db.query(insertUserDataQuery, [userId, name, cpf, weight, height, bornDate], (err, result) => {
               if (err) {
                   console.error('Erro ao inserir na tabela user_data:', err);
@@ -95,7 +82,7 @@ app.post('/signup', (req, res) => {
                           res.status(500).json({ error: 'Erro ao cometer transação', details: err.message });
                       });
                   }
-                  res.status(200).json({ message: 'Usuário cadastrado com sucesso!' });
+                  res.status(200).json({ message: 'Usuário cadastrado com sucesso!', insertId: userId });
               });
           });
       });
@@ -161,6 +148,26 @@ app.get('/user/:userId', (req, res) => {
           res.status(200).json(results[0]);
       } else {
           res.status(404).json({ error: 'Usuário não encontrado' });
+      }
+  });
+});
+
+app.post('/editProfile/:id', (req, res) => {
+  const userId = req.params.id;
+  const { name, cpf, weight, height, bornDate } = req.body;
+
+  const sql = `
+      UPDATE user_data
+      SET name = ?, cpf = ?, weight = ?, height = ?, bornDate = ?
+      WHERE id = ?
+  `;
+
+  db.query(sql, [name, cpf, weight, height, bornDate, userId], (err, result) => {
+      if (err) {
+          console.error('Erro ao atualizar perfil:', err);
+          res.status(500).json({ error: 'Erro ao atualizar perfil' });
+      } else {
+          res.json({ message: 'Perfil atualizado com sucesso' });
       }
   });
 });

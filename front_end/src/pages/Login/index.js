@@ -25,7 +25,7 @@ const Login = ({ navigation }) => {
     return(
         <Pressable onPress={Keyboard.dismiss} style={styles.container}>
             <View style={styles.imageContainer}>
-                <Image source={{ uri: 'https://via.placeholder.com/150' }} style={styles.image}></Image>
+                <Image source={require("./images/logo.png")} style={styles.image}></Image>
             </View>
 
             <View style={styles.inputContainer}>
