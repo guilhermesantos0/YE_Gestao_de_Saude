@@ -5,13 +5,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import styles from "./style";
 
+import config from "../../../config";
+
 const Login = ({ navigation }) => {
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
 
     const checkLogin = async () => {
         try {
-            const response = await axios.post('http://192.168.0.172:3000/login', { email, password });
+            const response = await axios.post(`${config.apiBaseUrl}/login`, { email, password });
             if (response.data.userId) {
                 await AsyncStorage.setItem('userId', response.data.userId.toString());
                 navigation.navigate('Home');

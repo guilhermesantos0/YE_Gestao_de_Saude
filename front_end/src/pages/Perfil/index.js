@@ -5,6 +5,8 @@ import axios from 'axios';
 
 import styles from "./style";
 
+import config from "../../../config";
+
 const EditProfile = ({ navigation }) => {
     const [name, setName] = useState('');
     const [cpf, setCpf] = useState('');
@@ -17,7 +19,7 @@ const EditProfile = ({ navigation }) => {
             try {
                 const userId = await AsyncStorage.getItem('userId');
                 if (userId) {
-                    const response = await axios.get(`http://192.168.0.172:3000/user/${userId}`);
+                    const response = await axios.get(`${config.apiBaseUrl}/user/${userId}`);
                     const userData = response.data;
                     setName(userData.name);
                     setCpf(userData.cpf);
@@ -37,7 +39,7 @@ const EditProfile = ({ navigation }) => {
         try {
             const userId = await AsyncStorage.getItem('userId');
             if (userId) {
-                await axios.post(`http://192.168.0.172:3000/editProfile/${userId}`, {
+                await axios.post(`${config.apiBaseUrl}/editProfile/${userId}`, {
                     name,
                     cpf,
                     weight,

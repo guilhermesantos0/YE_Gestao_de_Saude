@@ -6,6 +6,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import styles from './style';
 
+import config from '../../../config';
+
 const Medicamentos = () => {
   const [medicines, setMedicines] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
@@ -19,7 +21,7 @@ const Medicamentos = () => {
       try {
         const userId = await AsyncStorage.getItem('userId');
         if (userId) {
-          const response = await axios.get(`http://192.168.0.172:3000/userMedicines/${userId}`);
+          const response = await axios.get(`${config.apiBaseUrl}/userMedicines/${userId}`);
           setMedicines(response.data);
         }
       } catch (error) {
@@ -61,7 +63,7 @@ const Medicamentos = () => {
         time: interval,
       };
 
-      const response = await axios.post('http://192.168.0.172:3000/addMedicine', newMedicine);
+      const response = await axios.post(`${config.apiBaseUrl}/addMedicine`, newMedicine);
       setMedicines(prevMedicines => [...prevMedicines, newMedicine]);
       setModalVisible(false);
       setName('');

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { View, Image, Text, TextInput, TouchableOpacity, Keyboard, Pressable, Alert } from "react-native";
 import styles from "./style";
 
+import config from "../../../../config";
+
 const Cadastro = ({ navigation }) => {
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);

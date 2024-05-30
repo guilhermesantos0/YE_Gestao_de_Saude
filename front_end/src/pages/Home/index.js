@@ -6,6 +6,8 @@ import axios from 'axios';
 import HomeNavigation from "../../components/HomeNavigation";
 import styles from "./style";
 
+import config from "../../../config";
+
 const Home = ({ navigation }) => {
     const [name, setName] = useState('');
     const [pression, setPression] = useState('10/6');
@@ -19,7 +21,7 @@ const Home = ({ navigation }) => {
             try {
                 const userId = await AsyncStorage.getItem('userId');
                 if (userId) {
-                    const response = await axios.get(`http://192.168.0.172:3000/user/${userId}`);
+                    const response = await axios.get(`${config.apiBaseUrl}/user/${userId}`);
                     if (response.data.name) {
                         setName(response.data.name);
                         setHeight(response.data.height);

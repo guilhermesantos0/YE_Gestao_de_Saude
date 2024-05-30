@@ -4,6 +4,8 @@ import axios from 'axios';
 import styles from "./style";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import config from "../../../../config";
+
 const CompleteProfile = ({ route, navigation }) => {
     const { email, password } = route.params;
     const [name, setName] = useState(null);
@@ -14,7 +16,7 @@ const CompleteProfile = ({ route, navigation }) => {
 
     const completeProfile = () => {
         if(name !== '' && cpf !== '' && weight !== '' && height !== '' && bornDate !== ''){
-            axios.post('http://192.168.0.172:3000/signup', { email, password, name, cpf, weight, height, bornDate })
+            axios.post(`${config.apiBaseUrl}/signup`, { email, password, name, cpf, weight, height, bornDate })
             .then(async response => {
                 if (response.status === 200) {
                     await AsyncStorage.setItem('userId', response.data.insertId.toString());

@@ -6,6 +6,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import styles from './style';
 
+import config from '../../../config';
+
 const Consultas = ({ navigation }) => {
     const [data, setData] = useState([]);
     const [expandedId, setExpandedId] = useState(null);
@@ -20,7 +22,7 @@ const Consultas = ({ navigation }) => {
         const fetchConsults = async () => {
             const userId = await AsyncStorage.getItem("userId");
             setUserId(userId);
-            axios.get(`http://192.168.0.172:3000/getUserConsults/${userId}`)
+            axios.get(`${config.apiBaseUrl}/getUserConsults/${userId}`)
             .then(response => {
                 setData(response.data);
             })
@@ -43,7 +45,7 @@ const Consultas = ({ navigation }) => {
 
     const handleAdd = () => {
         if (newTitle !== '' && newDate !== '' && newTime !== '' && newPlace !== '') {
-            axios.post('http://192.168.0.172:3000/addConsult', {
+            axios.post(`${config.apiBaseUrl}/addConsult`, {
                 userId,
                 name: newTitle,
                 date: newDate,
