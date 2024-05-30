@@ -1,41 +1,31 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      padding: 10,
-    },
-    header: {
-      fontWeight: 'bold',
-      fontSize: 16,
-      textAlign: 'center',
-      marginVertical: 10,
-    },
-    table: {
-      flex: 1,
-    },
-    row: {
-      flexDirection: 'row',
-      borderBottomWidth: 1,
-      borderColor: '#000',
-      padding: 10,
-    },
-    cell: {
-      flex: 1,
-      textAlign: 'left',
-    },
-    selectedRow: {
-      backgroundColor: '#d3d3d3',
-    },
-    deleteButton: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      marginVertical: 20,
-    },
-    deleteIcon: {
-      width: 40,
-      height: 40,
-    },
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    paddingHorizontal: 20,
+  },
+  examContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+    height: 100, 
+    padding: 10,
+    backgroundColor: '#f5f5f5',
+    borderWidth: 1,
+    borderColor: '#000',
+    borderRadius: 5,
+    marginVertical: 10,
+  },
+  examDetails: {
+    flex: 1,
+  },
+  examText: {
+    color: '#000',
+    textAlign: 'left',
+  },
 });
 
 export default styles

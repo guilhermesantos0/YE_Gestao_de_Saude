@@ -221,3 +221,45 @@ app.post('/addMedicine', (req, res) => {
 app.listen(process.env.PORT, () => {
     console.log('Servidor rodando na porta 3000')
 })
+// ===================================================
+// Ver Exames
+// ===================================================
+app.get('/exams', (req, res) => {
+  if (useLocalData) {
+    res.json(localData);
+  } else {
+    db.query('SELECT name, result, date FROM exams', (err, results) => {
+      if (err) {
+        console.error('Error fetching data:', err);
+        res.status(500).send('Server error');
+        return;
+      }
+      res.json(results);
+    });
+  }
+});
+// ===================================================
+// delete Exames
+// ===================================================
+app.delete('/exams/:id', (req, res) => {
+  const { id } = req.params;
+  if (useLocalData) {
+    const index = localData.findIndex(exam => exam.id == id);
+    if (index > -1) {
+      localData.splice(index, 1);
+      res.status(200).send({ message: 'Exam deleted successfully' });
+    } else {
+      res.status(404).send({ message: 'Exam not found' });
+    }
+  } else {
+    db.query('DELETE FROM exams WHERE id = ?', [id], (err, results) => {
+      if (err) {
+        console.error('Error deleting data:', err);
+        res.status(500).send('Server error');
+        return;
+      }
+      res.status(200).send({ message: 'Exam deleted successfully' });
+    });
+  }
+});
+

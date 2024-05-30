@@ -1,36 +1,87 @@
-import { View, Text, ScrollView } from "react-native";
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Modal, Button, ScrollView } from 'react-native';
+import axios from 'axios';
 
 import styles from "./style";
 
-const data = [
-    { exame: 'testosterona', resultado: '900 ng/dl' },
-    { exame: 'glicemia', resultado: '52 ng/dl' },
-    { exame: 'gh', resultado: '0,3 ng/dl' },
-    { exame: 'plaqueta', resultado: '700.000 mm3' },
-    { exame: 'glóbulo vermelho', resultado: '5,0 M mm3' },
-    { exame: 'ferro', resultado: '175 µg/dL' },
-    { exame: 'b3', resultado: '30,0 µg/L ng/dl' },
-];
-
-const VerExames = () => {
-    return(
+export default function App() {
+    const [modalVisible, setModalVisible] = useState(false);
+    const [modalData, setModalData] = useState({});
+    const [exams, setExams] = useState([]);
+  
+    useEffect(() => {
+      // Para testar com dados estáticos locais
+      const localExams = [
+        { name: 'exame de sangue', result: 'asigasuifgisaydgfsudgfusagdbufgsadoufvsdufgbshdafvsjahdfv jhysavdfhsavdfhjsavdjhfvsdfhvsadahfvshdfvsahdvfgjsadvfjhsdcjfhsad cjhfgsdchbafcsdnhfcshdfcsahdf csdahbfsd fghsdvfcshdfvhnsdcvfhsdavf hsdvfnhsadvfhbsjd hfsdf .gvfsabv,fd kbnjfdabzsjfdnv bsdufgsdbvdchsydgvusabvkhdsckhv.', date: '2024-05-01' },
+        { name: 'Exam 2', result: 'Consectetur adipiscing elit.', date: '2024-05-02' },
+        { name: 'Exam 2', result: 'Consectetur adipiscing elit.', date: '2024-05-02' },
+        { name: 'Exam 2', result: 'Consectetur adipiscing elit.', date: '2024-05-02' },
+        { name: 'Exam 2', result: 'Consectetur adipiscing elit.', date: '2024-05-02' },
+        { name: 'Exam 2', result: 'Consectetur adipiscing elit.', date: '2024-05-02' },
+        { name: 'Exam 2', result: 'Consectetur adipiscing elit.', date: '2024-05-02' },
+        { name: 'Exam 2', result: 'Consectetur adipiscing elit.', date: '2024-05-02' },
+        { name: 'Exam 2', result: 'Consectetur adipiscing elit.', date: '2024-05-02' },
+        { name: 'Exam 2', result: 'Consectetur adipiscing elit.', date: '2024-05-02' },
+        { name: 'Exam 2', result: 'Consectetur adipiscing elit.', date: '2024-05-02' },
+        { name: 'Exam 2', result: 'Consectetur adipiscing elit.', date: '2024-05-02' },
+        { name: 'Exam 2', result: 'Consectetur adipiscing elit.', date: '2024-05-02' },
+        { name: 'Exam 3', result: 'Sed do eiusmod tempor incididunt.', date: '2024-05-03' }
+      ];
+      setExams(localExams);
+  
+      // Para usar dados do backend, descomente o código abaixo e comente o código acima
+      /*
+      axios.get('http://localhost:3000/exams')
+        .then(response => {
+          setExams(response.data);  // Setting the fetched data to the exams state
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+        });
+      */
+    }, []);
+  
+    const abrirModal = (nome, result, date) => {
+      setModalData({ nome, result, date });
+      setModalVisible(true);
+    }
+  
+    const renderizarCaixas = () => {
+      return exams.map((exam, index) => (
+        <TouchableOpacity
+          key={index}
+          style={styles.box}
+          onPress={() => abrirModal(exam.name, exam.result, exam.date)}
+        >
+          <Text style={styles.boxText}>{exam.name}</Text>
+          <Text style={styles.boxText}>{exam.date}</Text>
+        </TouchableOpacity>
+      ));
+    };
+  
+    return (
+      <View style={styles.container}>
         <ScrollView>
-            <View style={styles.container}>
-                <View style={styles.row}>
-                <Text style={[styles.cell, styles.header, styles.cellLeft]}>exames</Text>
-                <Text style={[styles.cell, styles.header]}>resultados</Text>
-                </View>
-
-                {data.map((item, index) => (
-                    <View key={index} style={styles.row}>
-                        <Text style={[styles.cell, styles.cellLeft]}>{item.exame}</Text>
-                        <Text style={styles.cell}>{item.resultado}</Text>
-                    </View>
-                ))}
-
-            </View>
+          {renderizarCaixas()}
         </ScrollView>
-    )
-}
-
-export default VerExames
+  
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>{modalData.nome}</Text>
+              <Text style={styles.modalText}>{modalData.date}</Text>
+              <Text style={styles.loremIpsum}>{modalData.result}</Text>
+              <Button title="Fechar " onPress={() => setModalVisible(!modalVisible)} color={'#df0000'}/>
+            </View>
+          </View>
+        </Modal>
+      </View>
+    );
+  }
