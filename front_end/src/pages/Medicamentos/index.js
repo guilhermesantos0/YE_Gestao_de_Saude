@@ -1,25 +1,34 @@
+// Medicamentos.js
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, Alert, Modal, TextInput } from 'react-native';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import styles from './style';
 
-const initialData = [
-  { id: '1', name: 'advil', schedule: '2 x 8h' },
-  { id: '2', name: 'benegripe', schedule: '1 x 8h' },
-  { id: '3', name: 'tandrilax', schedule: '1 x 24h' },
-  { id: '4', name: 'sinus', schedule: '1 x 8h' },
-  { id: '5', name: 'paracetamol', schedule: '1 x 8h' },
-  { id: '6', name: 'omeprazol', schedule: '1 x 24h' },
-  { id: '7', name: 'dorflex', schedule: '1 x 24h' },
-];
-
 const Medicamentos = () => {
-  const [medicines, setMedicines] = useState(initialData);
+  const [medicines, setMedicines] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [name, setName] = useState('');
   const [quantity, setQuantity] = useState('');
   const [interval, setInterval] = useState('');
+
+  useEffect(() => {
+    const fetchUserMedicines = async () => {
+      try {
+        const userId = await AsyncStorage.getItem('userId');
+        if (userId) {
+          const response = await axios.get(`http://192.168.0.172:3000/userMedicines/${userId}`);
+          setMedicines(response.data);
+        }
+      } catch (error) {
+        console.error('Erro ao buscar medicamentos do usuário:', error);
+      }
+    };
+
+    fetchUserMedicines();
+  }, []);
 
   const deleteMedicine = (id) => {
     Alert.alert(
@@ -37,23 +46,30 @@ const Medicamentos = () => {
     );
   };
 
-  const handleAddMedicine = () => {
+  const handleAddMedicine = async () => {
     if (!name || !quantity || !interval) {
       alert('Por favor, preencha todos os campos.');
       return;
     }
 
-    const newMedicine = {
-      id: Date.now().toString(),
-      name,
-      schedule: `${quantity} x ${interval}h`,
-    };
+    try {
+      const userId = await AsyncStorage.getItem('userId');
+      const newMedicine = {
+        userId,
+        medicineid: 12,
+        amount: quantity,
+        time: interval,
+      };
 
-    setMedicines(prevMedicines => [...prevMedicines, newMedicine]);
-    setModalVisible(false);
-    setName('');
-    setQuantity('');
-    setInterval('');
+      const response = await axios.post('http://192.168.0.172:3000/addMedicine', newMedicine);
+      setMedicines(prevMedicines => [...prevMedicines, newMedicine]);
+      setModalVisible(false);
+      setName('');
+      setQuantity('');
+      setInterval('');
+    } catch (error) {
+      console.error('Erro ao adicionar medicamento:', error);
+    }
   };
 
   const renderItem = ({ item }) => {
@@ -65,7 +81,7 @@ const Medicamentos = () => {
         style={[styles.item, { backgroundColor }]}
       >
         <Text style={styles.title}>{item.name}</Text>
-        <Text style={styles.subtitle}>{item.schedule}</Text>
+        <Text style={styles.subtitle}>{`${item.amount} x ${item.time}h`}</Text>
       </TouchableOpacity>
     );
   };
@@ -76,7 +92,7 @@ const Medicamentos = () => {
       <FlatList
         data={medicines}
         renderItem={renderItem}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item.medicineid}
         extraData={selectedId}
         style={styles.list}
       />
@@ -131,5 +147,4 @@ const Medicamentos = () => {
   );
 };
 
-
-export default Medicamentos
+export default Medicamentos;

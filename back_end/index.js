@@ -129,6 +129,20 @@ app.get('/getUserConsults/:userId', (req, res) => {
     });
 });
 
+app.get('/deleteConsult/:userId&:consultId', (req, res) => {
+  const {userId, consultId} = req.params;
+  const sql = "DELETE FROM consults WHERE id = ? AND userId = ?"
+  
+  db.query(sql, [consultId, userId], (err, results) => {
+    if(err) {
+      console.error("Erro ao apagar consulta:", err);
+      res.status(500).send('Erro ao apagar consulta');
+      return;
+    }
+    res.status(200)
+  })
+})
+
 // ===================================================
 // HOME
 // ===================================================
@@ -168,6 +182,38 @@ app.post('/editProfile/:id', (req, res) => {
           res.status(500).json({ error: 'Erro ao atualizar perfil' });
       } else {
           res.json({ message: 'Perfil atualizado com sucesso' });
+      }
+  });
+});
+
+// ===================================================
+// MEDICAMENTOS
+// ===================================================
+
+app.get('/userMedicines/:userId', (req, res) => {
+  const userId = req.params.userId;
+
+  const sql = 'SELECT * FROM user_medicines WHERE id = ?';
+  db.query(sql, [userId], (err, results) => {
+      if (err) {
+          console.error('Erro ao buscar medicamentos:', err);
+          res.status(500).json({ error: 'Erro ao buscar medicamentos' });
+      } else {
+          res.json(results);
+      }
+  });
+});
+
+app.post('/addMedicine', (req, res) => {
+  const { userId, medicineid, amount, time } = req.body;
+
+  const sql = 'INSERT INTO user_medicines (id, medicineid, amount, time) VALUES (?, ?, ?, ?)';
+  db.query(sql, [userId, medicineid, amount, time], (err, result) => {
+      if (err) {
+          console.error('Erro ao adicionar medicamento:', err);
+          res.status(500).json({ error: 'Erro ao adicionar medicamento' });
+      } else {
+          res.json({ message: 'Medicamento adicionado com sucesso', insertId: result.insertId });
       }
   });
 });
