@@ -1,6 +1,3 @@
-CREATE DATABASE IF NOT EXISTS `ye_gestao_saude`;
-USE `ye_gestao_saude`;
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -31,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `consults` (
   `place` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id` (`id`)
-) ENGINE = InnoDB AUTO_INCREMENT = 5 DEFAULT CHARSET = utf8mb4;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 DEFAULT CHARSET = utf8mb4;
 
 # ------------------------------------------------------------
 # SCHEMA DUMP FOR TABLE: exams
@@ -43,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `exams` (
   `result` varchar(50) DEFAULT NULL,
   `date` varchar(50) DEFAULT NULL,
   KEY `FK__1` (`id`),
-  CONSTRAINT `FK__1` FOREIGN KEY (`id`) REFERENCES `users` (`id`)
+  CONSTRAINT `FK__1` FOREIGN KEY (`id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
 # ------------------------------------------------------------
@@ -75,7 +72,7 @@ CREATE TABLE IF NOT EXISTS `user_data` (
   `height` int(11) DEFAULT NULL,
   `bornDate` varchar(50) DEFAULT NULL,
   KEY `FK__users` (`id`),
-  CONSTRAINT `FK__users` FOREIGN KEY (`id`) REFERENCES `users` (`id`)
+  CONSTRAINT `FK__users` FOREIGN KEY (`id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
 # ------------------------------------------------------------
@@ -83,13 +80,17 @@ CREATE TABLE IF NOT EXISTS `user_data` (
 # ------------------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS `user_medicines` (
-  `id` int(11) DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userid` int(11) DEFAULT NULL,
   `medicineId` int(11) DEFAULT NULL,
-  KEY `FK__users_medicines` (`id`),
+  `amount` int(11) DEFAULT NULL,
+  `time` int(11) DEFAULT NULL,
   KEY `FK__medicamentos_medicines` (`medicineId`),
-  CONSTRAINT `FK__medicamentos_medicines` FOREIGN KEY (`medicineId`) REFERENCES `medicamentos` (`id`),
-  CONSTRAINT `FK__users_medicines` FOREIGN KEY (`id`) REFERENCES `users` (`id`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
+  KEY `FK__users_medicines` (`userid`) USING BTREE,
+  KEY `id` (`id`),
+  CONSTRAINT `FK__medicamentos_medicines` FOREIGN KEY (`medicineId`) REFERENCES `medicamentos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK__users_medicines` FOREIGN KEY (`userid`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 2 DEFAULT CHARSET = utf8mb4;
 
 # ------------------------------------------------------------
 # SCHEMA DUMP FOR TABLE: users
@@ -102,7 +103,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
   KEY `id` (`id`)
-) ENGINE = InnoDB AUTO_INCREMENT = 8 DEFAULT CHARSET = utf8mb4;
+) ENGINE = InnoDB AUTO_INCREMENT = 19 DEFAULT CHARSET = utf8mb4;
 
 # ------------------------------------------------------------
 # DATA DUMP FOR TABLE: abim_lab_test
@@ -2028,26 +2029,34 @@ VALUES
 INSERT INTO
   `consults` (`id`, `userId`, `name`, `date`, `time`, `place`)
 VALUES
-  (1, 1, 'ksjdkajsn', 'jdjdjd', 'ndndndndn', 'jsjsnd');
-INSERT INTO
-  `consults` (`id`, `userId`, `name`, `date`, `time`, `place`)
-VALUES
-  (2, 1, 'kajskakdns', 'kzjxn', 'hzuxhsbdb', 'hshzbzn');
-INSERT INTO
-  `consults` (`id`, `userId`, `name`, `date`, `time`, `place`)
-VALUES
   (
-    3,
-    1,
-    'Murilo',
-    '27/05/2024',
-    '15:48',
-    'Hospital São Camilo'
+    5,
+    7,
+    'Nome Teste',
+    '28/05/2024',
+    '14:19',
+    'Local Teste'
   );
 INSERT INTO
   `consults` (`id`, `userId`, `name`, `date`, `time`, `place`)
 VALUES
-  (4, 1, 'Consulta 1', '11', '33', 'Casa');
+  (6, 7, 'Consulta 2', '29/05/2024', '14:20', 'Local 2');
+INSERT INTO
+  `consults` (`id`, `userId`, `name`, `date`, `time`, `place`)
+VALUES
+  (7, 7, 'SASADASDSA', 'sdsad', 'fdsf', 'asdsada');
+INSERT INTO
+  `consults` (`id`, `userId`, `name`, `date`, `time`, `place`)
+VALUES
+  (8, 9, 'Consulta', 'Data', 'Hora', 'Casa');
+INSERT INTO
+  `consults` (`id`, `userId`, `name`, `date`, `time`, `place`)
+VALUES
+  (9, 17, 'shzhjzjs', 'ds', 'dddd', 'asss');
+INSERT INTO
+  `consults` (`id`, `userId`, `name`, `date`, `time`, `place`)
+VALUES
+  (10, 18, 'sasdsadsa', 'asdsadsad', 'sadasd', 'sadasd');
 
 # ------------------------------------------------------------
 # DATA DUMP FOR TABLE: exams
@@ -28400,12 +28409,43 @@ VALUES
 INSERT INTO
   `user_data` (`id`, `name`, `cpf`, `weight`, `height`, `bornDate`)
 VALUES
-  (7, 'Nome', 'cpf', 1, 2, 'aaa');
+  (7, 'Guilherme Santos', 'cpf', 1, 2, 'aaa');
+INSERT INTO
+  `user_data` (`id`, `name`, `cpf`, `weight`, `height`, `bornDate`)
+VALUES
+  (14, 'Guilherme Santos', '12333', 69, 184, '2222');
+INSERT INTO
+  `user_data` (`id`, `name`, `cpf`, `weight`, `height`, `bornDate`)
+VALUES
+  (15, 'aaaa', 'aaa', 2, 73, 'jsjsjs');
+INSERT INTO
+  `user_data` (`id`, `name`, `cpf`, `weight`, `height`, `bornDate`)
+VALUES
+  (16, 'aaaa', 'aa', 22, 222, 'aaa');
+INSERT INTO
+  `user_data` (`id`, `name`, `cpf`, `weight`, `height`, `bornDate`)
+VALUES
+  (17, 'ddd', '333', 33, 344, 'jdjdu');
+INSERT INTO
+  `user_data` (`id`, `name`, `cpf`, `weight`, `height`, `bornDate`)
+VALUES
+  (
+    18,
+    'Guilherme Santos',
+    '123.456.789-10',
+    69,
+    184,
+    'aaaaaa'
+  );
 
 # ------------------------------------------------------------
 # DATA DUMP FOR TABLE: user_medicines
 # ------------------------------------------------------------
 
+INSERT INTO
+  `user_medicines` (`id`, `userid`, `medicineId`, `amount`, `time`)
+VALUES
+  (1, 18, 12, 1, 12);
 
 # ------------------------------------------------------------
 # DATA DUMP FOR TABLE: users
@@ -28415,6 +28455,26 @@ INSERT INTO
   `users` (`id`, `email`, `password`)
 VALUES
   (7, 'email', 'senha');
+INSERT INTO
+  `users` (`id`, `email`, `password`)
+VALUES
+  (14, 'a@b.com', 'senha');
+INSERT INTO
+  `users` (`id`, `email`, `password`)
+VALUES
+  (15, 'kakakakaka', 'aa');
+INSERT INTO
+  `users` (`id`, `email`, `password`)
+VALUES
+  (16, 'aaaa', 'aa');
+INSERT INTO
+  `users` (`id`, `email`, `password`)
+VALUES
+  (17, 'ddddddd', 'd');
+INSERT INTO
+  `users` (`id`, `email`, `password`)
+VALUES
+  (18, 'guilherme@email.com', 'senhaforte');
 
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
