@@ -35,12 +35,14 @@ CREATE TABLE IF NOT EXISTS `consults` (
 # ------------------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS `exams` (
-  `id` int(11) DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
   `name` varchar(50) DEFAULT NULL,
   `result` varchar(50) DEFAULT NULL,
   `date` varchar(50) DEFAULT NULL,
   KEY `FK__1` (`id`),
-  CONSTRAINT `FK__1` FOREIGN KEY (`id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK__1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  kEY `id` (`id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
 # ------------------------------------------------------------
