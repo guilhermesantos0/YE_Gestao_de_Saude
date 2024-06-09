@@ -67,21 +67,25 @@ export default function App() {
   
         <Modal
           animationType="slide"
-          transparent={true}
+          transparent={false}
           visible={modalVisible}
-          onRequestClose={() => {
-            setModalVisible(!modalVisible);
-          }}
+          onRequestClose={() => setModalVisible(!modalVisible)}
         >
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <Text style={styles.modalText}>{modalData.nome}</Text>
+          <View style={styles.fullScreenView}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>Detalhes do Exame:</Text>
+              <Button title="Fechar" onPress={() => setModalVisible(!modalVisible)} color={'#df0000'} />
+            </View>
+            <View style={styles.modalContent}>
+              <Text style={styles.modalLabel}>Nome:</Text>
+              <Text style={styles.modalText}>{modalData.name}</Text>
+              <Text style={styles.modalLabel}>Data:</Text>
               <Text style={styles.modalText}>{modalData.date}</Text>
-              <Text style={styles.loremIpsum}>{modalData.result}</Text>
-              <Button title="Fechar " onPress={() => setModalVisible(!modalVisible)} color={'#df0000'}/>
+              <Text style={styles.modalLabel}>Resultado:</Text>
+              <Text style={styles.result}>{modalData.result}</Text>
             </View>
           </View>
-        </Modal>
+      </Modal>
       </View>
     );
   }
