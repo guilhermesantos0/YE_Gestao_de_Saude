@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
   },
   input: {
-    height: 40,
+    height: 60,
     borderColor: '#ddd',
     borderWidth: 1,
     borderRadius: 4,
@@ -15,17 +15,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     backgroundColor: '#fff',
   },
-  button: {
-    backgroundColor: '#007bff',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 4,
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 16,
+  sortButton: {
+    marginBottom: 10, 
   },
   box: {
     backgroundColor: '#fff',
@@ -43,6 +34,9 @@ const styles = StyleSheet.create({
     color: '#333',
     flexShrink: 1,
   },
+  // ------------------------------------------------------------
+  // Modal
+  // ------------------------------------------------------------
   fullScreenView: {
     flex: 1,
     justifyContent: 'flex-start',

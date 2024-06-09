@@ -78,7 +78,7 @@ export default function App() {
             </View>
             <View style={styles.modalContent}>
               <Text style={styles.modalLabel}>Nome:</Text>
-              <Text style={styles.modalText}>{modalData.name}</Text>
+              <Text style={styles.modalText}>{modalData.nome}</Text>
               <Text style={styles.modalLabel}>Data:</Text>
               <Text style={styles.modalText}>{modalData.date}</Text>
               <Text style={styles.modalLabel}>Resultado:</Text>

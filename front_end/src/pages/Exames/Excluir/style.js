@@ -10,22 +10,23 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    width: '100%',
-    height: 100, 
-    padding: 10,
-    backgroundColor: '#f5f5f5',
-    borderWidth: 1,
-    borderColor: '#000',
-    borderRadius: 5,
-    marginVertical: 10,
+    backgroundColor: '#fff',
+    padding: 16,
+    borderRadius: 4,
+    marginBottom: 16,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 5 },
+    elevation: 5,
   },
   examDetails: {
     flex: 1,
   },
   examText: {
-    color: '#000',
-    textAlign: 'left',
+    fontSize: 16,
+    color: '#333',
   },
 });
 
-export default styles
+export default styles;

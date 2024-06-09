@@ -88,8 +88,10 @@ const HealthManagementScreen = () => {
         value={filter}
         onChangeText={handleFilterChange}
       />
-      <Button title={`Ordenar por data (${sortOrder === 'asc' ? 'Mais antigos' : 'Mais novos'})`} onPress={handleSortChange} />
-
+      
+       <View style={styles.sortButton}>
+        <Button title={`Ordenar por data (${sortOrder === 'asc' ? 'Mais antigos' : 'Mais novos'})`} onPress={handleSortChange}  color={'#789484'}/>
+      </View>
       <ScrollView>
         {renderizarCaixas()}
       </ScrollView>

@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      paddingBottom: 70, // Adiciona espaço no final para o botão "Adicionar"
+      paddingBottom: 70, 
     },
     scrollView: {
       flex: 1,
