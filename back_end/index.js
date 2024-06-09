@@ -1,5 +1,5 @@
 const express = require('express');
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const bodyParser = require('body-parser');
 require('dotenv').config();
 
@@ -12,7 +12,8 @@ const db = mysql.createConnection({
     host: process.env.MYSQLHOST,
     user: process.env.MYSQLUSER,
     password: process.env.MYSQLPASSWORD,
-    database: process.env.MYSQLDB
+    database: process.env.MYSQLDB,
+    port: process.env.MYSQLPORT
 })
 
 db.connect((err) => {
@@ -192,35 +193,50 @@ app.post('/editProfile/:id', (req, res) => {
 
 app.get('/userMedicines/:userId', (req, res) => {
   const userId = req.params.userId;
-
-  const sql = 'SELECT * FROM user_medicines WHERE id = ?';
+  const sql = 'SELECT * FROM user_medicines INNER JOIN medicamentos ON user_medicines.medicineid = medicamentos.id WHERE userid = ?';
   db.query(sql, [userId], (err, results) => {
-      if (err) {
-          console.error('Erro ao buscar medicamentos:', err);
-          res.status(500).json({ error: 'Erro ao buscar medicamentos' });
-      } else {
-          res.json(results);
-      }
+    if (err) {
+      console.error('Erro ao buscar medicamentos do usuário:', err);
+      return res.status(500).json({ error: 'Erro ao buscar medicamentos do usuário' });
+    }
+    res.json(results);
+  });
+});
+
+app.get('/medicines', (req, res) => {
+  const sql = 'SELECT * FROM medicamentos';
+  db.query(sql, (err, results) => {
+    if (err) {
+      console.error('Erro ao buscar medicamentos disponíveis:', err);
+      return res.status(500).json({ error: 'Erro ao buscar medicamentos disponíveis' });
+    }
+    res.json(results);
   });
 });
 
 app.post('/addMedicine', (req, res) => {
   const { userId, medicineid, amount, time } = req.body;
-
-  const sql = 'INSERT INTO user_medicines (id, medicineid, amount, time) VALUES (?, ?, ?, ?)';
-  db.query(sql, [userId, medicineid, amount, time], (err, result) => {
-      if (err) {
-          console.error('Erro ao adicionar medicamento:', err);
-          res.status(500).json({ error: 'Erro ao adicionar medicamento' });
-      } else {
-          res.json({ message: 'Medicamento adicionado com sucesso', insertId: result.insertId });
-      }
+  const sql = 'INSERT INTO user_medicines (userid, medicineid, amount, time) VALUES (?, ?, ?, ?)';
+  db.query(sql, [userId, medicineid, amount, time], (err, results) => {
+    if (err) {
+      console.error('Erro ao adicionar medicamento:', err);
+      return res.status(500).json({ error: 'Erro ao adicionar medicamento' });
+    }
+    res.status(201).json({ message: 'Medicamento adicionado com sucesso' });
   });
 });
 
-app.listen(process.env.PORT, () => {
-    console.log('Servidor rodando na porta 3000')
-})
+app.delete('/deleteMedicine/:id', (req, res) => {
+  const medicineId = req.params.id;
+  const sql = 'DELETE FROM user_medicines WHERE id = ?';
+  db.query(sql, [medicineId], (err, results) => {
+    if (err) {
+      console.error('Erro ao excluir medicamento:', err);
+      return res.status(500).json({ error: 'Erro ao excluir medicamento' });
+    }
+    res.json({ message: 'Medicamento excluído com sucesso' });
+  });
+});
 // ===================================================
 // Ver Exames
 // ===================================================
@@ -263,3 +279,7 @@ app.delete('/exams/:id', (req, res) => {
   }
 });
 
+
+app.listen(process.env.PORT, () => {
+  console.log('Servidor rodando na porta 3000')
+})

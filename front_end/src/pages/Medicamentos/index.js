@@ -1,47 +1,74 @@
-// Medicamentos.js
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, Alert, Modal, TextInput } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import RNPickerSelect from 'react-native-picker-select';
 import styles from './style';
-
 import config from '../../../config';
 
 const Medicamentos = () => {
   const [medicines, setMedicines] = useState([]);
+  const [availableMedicines, setAvailableMedicines] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
-  const [name, setName] = useState('');
+  const [selectedMedicine, setSelectedMedicine] = useState('');
   const [quantity, setQuantity] = useState('');
-  const [interval, setInterval] = useState('');
+  const [interval, setTimeInterval] = useState('');
+  const [pickerItems, setPickerItems] = useState([]);
+
+  const fetchUserMedicines = async () => {
+    try {
+      const userId = await AsyncStorage.getItem('userId');
+      if (userId) {
+        const response = await axios.get(`${config.apiBaseUrl}/userMedicines/${userId}`);
+        const medicinesWithIds = response.data.map(med => ({
+          ...med,
+          medicineid: med.medicineid || med.id 
+        }));
+        setMedicines(medicinesWithIds);
+      }
+    } catch (error) {
+      console.error('Erro ao buscar medicamentos do usuário:', error);
+    }
+  };
+
+  const fetchAvailableMedicines = async () => {
+    try {
+      const response = await axios.get(`${config.apiBaseUrl}/medicines`);
+      setAvailableMedicines(response.data);
+      const items = response.data.map(med => ({
+        label: `${med.medicamento} ${med.concentracao}`,
+        value: med.id
+      }));
+      setPickerItems(items);
+    } catch (error) {
+      console.error('Erro ao buscar medicamentos disponíveis:', error);
+    }
+  };
 
   useEffect(() => {
-    const fetchUserMedicines = async () => {
-      try {
-        const userId = await AsyncStorage.getItem('userId');
-        if (userId) {
-          const response = await axios.get(`${config.apiBaseUrl}/userMedicines/${userId}`);
-          setMedicines(response.data);
-        }
-      } catch (error) {
-        console.error('Erro ao buscar medicamentos do usuário:', error);
-      }
-    };
-
     fetchUserMedicines();
   }, []);
 
-  const deleteMedicine = (id) => {
+  useEffect(() => {
+    fetchAvailableMedicines();
+  }, []);
+
+  const deleteMedicine = async (id) => {
     Alert.alert(
       "Excluir Medicamento",
       "Tem certeza que deseja excluir este medicamento?",
       [
         { text: "Cancelar", style: "cancel" },
         {
-          text: "OK", onPress: () => {
-            setMedicines(prevMedicines => prevMedicines.filter(med => med.id !== id));
-            setSelectedId(null);
+          text: "OK", onPress: async () => {
+            try {
+              await axios.delete(`${config.apiBaseUrl}/deleteMedicine/${id}`);
+              setMedicines(prevMedicines => prevMedicines.filter(med => med.id !== id));
+              setSelectedId(null);
+            } catch (error) {
+              console.error('Erro ao excluir medicamento:', error);
+            }
           }
         }
       ]
@@ -49,7 +76,7 @@ const Medicamentos = () => {
   };
 
   const handleAddMedicine = async () => {
-    if (!name || !quantity || !interval) {
+    if (!selectedMedicine || !quantity || !interval) {
       alert('Por favor, preencha todos os campos.');
       return;
     }
@@ -58,17 +85,18 @@ const Medicamentos = () => {
       const userId = await AsyncStorage.getItem('userId');
       const newMedicine = {
         userId,
-        medicineid: 12,
+        medicineid: selectedMedicine,
         amount: quantity,
         time: interval,
       };
 
-      const response = await axios.post(`${config.apiBaseUrl}/addMedicine`, newMedicine);
-      setMedicines(prevMedicines => [...prevMedicines, newMedicine]);
+      await axios.post(`${config.apiBaseUrl}/addMedicine`, newMedicine);
+      const addedMedicine = availableMedicines.find(med => med.id === selectedMedicine);
+      setMedicines(prevMedicines => [...prevMedicines, { ...newMedicine, name: `${addedMedicine.medicamento} ${addedMedicine.concentracao}` }]);
       setModalVisible(false);
-      setName('');
+      setSelectedMedicine('');
       setQuantity('');
-      setInterval('');
+      setTimeInterval('');
     } catch (error) {
       console.error('Erro ao adicionar medicamento:', error);
     }
@@ -82,7 +110,7 @@ const Medicamentos = () => {
         onPress={() => setSelectedId(item.id)}
         style={[styles.item, { backgroundColor }]}
       >
-        <Text style={styles.title}>{item.name}</Text>
+        <Text style={styles.title}>{item.medicamento} {item.concentracao}</Text>
         <Text style={styles.subtitle}>{`${item.amount} x ${item.time}h`}</Text>
       </TouchableOpacity>
     );
@@ -94,7 +122,7 @@ const Medicamentos = () => {
       <FlatList
         data={medicines}
         renderItem={renderItem}
-        keyExtractor={item => item.medicineid}
+        keyExtractor={item => item.medicineid.toString()}
         extraData={selectedId}
         style={styles.list}
       />
@@ -110,16 +138,13 @@ const Medicamentos = () => {
         animationType="slide"
         transparent={true}
         visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}
+        onRequestClose={() => setModalVisible(!modalVisible)}
       >
         <View style={styles.modalView}>
           <Text style={styles.label}>Nome do Medicamento:</Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={setName}
-            value={name}
+          <RNPickerSelect
+            onValueChange={(itemValue) => setSelectedMedicine(itemValue)}
+            items={pickerItems}
           />
           <Text style={styles.label}>Quantidade:</Text>
           <TextInput
@@ -131,7 +156,7 @@ const Medicamentos = () => {
           <Text style={styles.label}>Em quanto tempo deverá tomar o remédio? (digite em horas):</Text>
           <TextInput
             style={styles.input}
-            onChangeText={setInterval}
+            onChangeText={setTimeInterval}
             value={interval}
             keyboardType="numeric"
           />
