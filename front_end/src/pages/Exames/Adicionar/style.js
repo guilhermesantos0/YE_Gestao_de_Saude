@@ -4,6 +4,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#fff'
     },
     camera: {
         width: "100%",
@@ -25,6 +27,22 @@ const styles = StyleSheet.create({
         width: 50,
         borderRadius: 50
     },
-})
+    capturedImage: {
+        flex: 1,
+        width: "100%",
+    },
+    textContainer: {
+        position: 'absolute',
+        bottom: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        width: '100%',
+        padding: 10
+    },
+    extractedText: {
+        color: 'white',
+        fontSize: 16,
+        textAlign: 'center'
+    }
+});
 
-export default styles
+export default styles;

@@ -244,41 +244,43 @@ app.delete('/deleteMedicine/:id', (req, res) => {
 // ===================================================
 
 app.get('/exams', (req, res) => {
-  if (useLocalData) {
-    res.json(localData);
-  } else {
-    db.query('SELECT name, result, date FROM exams', (err, results) => {
-      if (err) {
-        console.error('Error fetching data:', err);
-        res.status(500).send('Server error');
-        return;
-      }
-      res.json(results);
-    });
-  }
+  pool.query('SELECT id, name, result, date FROM exams', (err, results) => {
+    if (err) {
+      console.error('Erro ao buscar exames:', err);
+      res.status(500).send('Erro ao buscar exames');
+      return;
+    }
+    res.json(results.rows);
+  });
+});
+
+app.post('/exams', (req, res) => {
+  const { user_id, name, result, date } = req.body;
+  const sql = 'INSERT INTO exams (user_id, name, result, date) VALUES ($1, $2, $3, $4) RETURNING id';
+  pool.query(sql, [user_id, name, result, date], (err, result) => {
+    if (err) {
+      console.error('Erro ao adicionar exame:', err);
+      res.status(500).json({ error: 'Erro ao adicionar exame' });
+      return;
+    }
+    res.status(201).json({ message: 'Exame adicionado com sucesso', insertId: result.rows[0].id });
+  });
 });
 
 app.delete('/exams/:id', (req, res) => {
   const { id } = req.params;
-  if (useLocalData) {
-    const index = localData.findIndex(exam => exam.id == id);
-    if (index > -1) {
-      localData.splice(index, 1);
-      res.status(200).send({ message: 'Exam deleted successfully' });
-    } else {
-      res.status(404).send({ message: 'Exam not found' });
+  const sql = 'DELETE FROM exams WHERE id = $1';
+  pool.query(sql, [id], (err, results) => {
+    if (err) {
+      console.error('Erro ao excluir exame:', err);
+      res.status(500).send('Erro ao excluir exame');
+      return;
     }
-  } else {
-    db.query('DELETE FROM exams WHERE id = ?', [id], (err, results) => {
-      if (err) {
-        console.error('Error deleting data:', err);
-        res.status(500).send('Server error');
-        return;
-      }
-      res.status(200).send({ message: 'Exam deleted successfully' });
-    });
-  }
+    res.status(200).send({ message: 'Exame excluído com sucesso' });
+  });
 });
+
+
 
 // ===================================================
 // EXPRESS

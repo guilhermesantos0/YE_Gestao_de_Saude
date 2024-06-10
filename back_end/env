@@ -1,0 +1,5 @@
+MYSQLHOST="roundhouse.proxy.rlwy.net"
+MYSQLUSER="root"
+MYSQLPASSWORD="saYkGKmxyGZCLpHcsQxOYEXOZgnDbwEz"
+MYSQLDB="ye_gestao_saude"
+PORT=12593

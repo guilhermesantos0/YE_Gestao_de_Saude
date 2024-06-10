@@ -12,25 +12,6 @@ const HealthManagementScreen = () => {
   const [modalData, setModalData] = useState({});
 
   useEffect(() => {
-    // Dados estáticos locais para teste
-    const localExams = [
-      { name: 'Exame de Sangue', result: 'Resultado do exame de sangue', date: '2024-05-01' },
-      { name: 'Exame de Urina', result: 'Resultado do exame de urina', date: '2024-06-01' },
-      { name: 'Exame de Colesterol', result: 'Colesterol Total: 190 mg/dL', date: '2024-04-20' },
-      { name: 'Exame de Glicose', result: 'Glicose: 90 mg/dL', date: '2024-03-15' },
-      { name: 'Exame de Tireoide', result: 'TSH: 2.5 µIU/mL', date: '2024-02-10' },
-      { name: 'Exame de Fezes', result: 'Ausência de parasitas', date: '2024-01-25' },
-      { name: 'Exame de Raio-X', result: 'asdbajhsvfdsjhavdfhsvdbfkjasvdkjfsavdhfvsadnhfvsajndv fnhd fjhasvdfjhsavdfhsavdfhbsavdf savdhfv sadgbf sadvf sd csgdcbgsdvchsd agvsad fhvb sdg vsgd v', date: '2024-03-22' },
-      { name: 'Exame de ECG', result: 'ECG normal', date: '2024-04-05' },
-      { name: 'Exame de Audiometria', result: 'Audição normal', date: '2024-05-10' },
-      { name: 'Exame de Função Pulmonar', result: 'Capacidade vital: 4.5L', date: '2024-06-05' }
-      // Adicione mais exames conforme necessário
-    ];
-    setExams(localExams);
-    setFilteredExams(localExams);
-
-    // Para usar dados do backend, descomente o código abaixo e comente o código acima
-    /*
     axios.get('http://localhost:3000/exams')
       .then(response => {
         setExams(response.data);
@@ -39,9 +20,8 @@ const HealthManagementScreen = () => {
       .catch(error => {
         console.error('Error fetching data:', error);
       });
-    */
   }, []);
-
+  
   const handleFilterChange = (text) => {
     setFilter(text);
     const filteredData = exams.filter(exam => 
@@ -88,8 +68,7 @@ const HealthManagementScreen = () => {
         value={filter}
         onChangeText={handleFilterChange}
       />
-      
-       <View style={styles.sortButton}>
+      <View style={styles.sortButton}>
         <Button title={`Ordenar por data (${sortOrder === 'asc' ? 'Mais antigos' : 'Mais novos'})`} onPress={handleSortChange}  color={'#789484'}/>
       </View>
       <ScrollView>
