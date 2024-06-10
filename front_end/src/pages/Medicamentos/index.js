@@ -92,7 +92,7 @@ const Medicamentos = () => {
 
       await axios.post(`${config.apiBaseUrl}/addMedicine`, newMedicine);
       const addedMedicine = availableMedicines.find(med => med.id === selectedMedicine);
-      setMedicines(prevMedicines => [...prevMedicines, { ...newMedicine, name: `${addedMedicine.medicamento} ${addedMedicine.concentracao}` }]);
+      setMedicines(prevMedicines => [...prevMedicines, { ...newMedicine, medicamento: `${addedMedicine.medicamento}`, concentracao: `${addedMedicine.concentracao}` }]);
       setModalVisible(false);
       setSelectedMedicine('');
       setQuantity('');

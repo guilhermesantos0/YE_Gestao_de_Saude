@@ -234,12 +234,15 @@ app.delete('/deleteMedicine/:id', (req, res) => {
       console.error('Erro ao excluir medicamento:', err);
       return res.status(500).json({ error: 'Erro ao excluir medicamento' });
     }
+    console.log("medicamento excluido")
     res.json({ message: 'Medicamento excluído com sucesso' });
   });
 });
+
 // ===================================================
-// Ver Exames
+// EXAMES
 // ===================================================
+
 app.get('/exams', (req, res) => {
   if (useLocalData) {
     res.json(localData);
@@ -254,9 +257,7 @@ app.get('/exams', (req, res) => {
     });
   }
 });
-// ===================================================
-// delete Exames
-// ===================================================
+
 app.delete('/exams/:id', (req, res) => {
   const { id } = req.params;
   if (useLocalData) {
@@ -279,6 +280,9 @@ app.delete('/exams/:id', (req, res) => {
   }
 });
 
+// ===================================================
+// EXPRESS
+// ===================================================
 
 app.listen(process.env.PORT, () => {
   console.log('Servidor rodando na porta 3000')
