@@ -16,14 +16,15 @@ export default function HealthManagementScreen() {
 
   useEffect(() => {
     const fetchExams = async () => {
-    const userId = await AsyncStorage.getItem("userId");
-    axios.get(`${config.apiBaseUrl}/examspuxar/${userId}`)
-      .then(response => {
-        setExams(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
+      const userId = await AsyncStorage.getItem("userId");
+      axios.get(`${config.apiBaseUrl}/examspuxar/${userId}`)
+        .then(response => {
+          setExams(response.data);
+          setFilteredExams(response.data); // Inicializa filteredExams com os dados recebidos
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+        });
     }
 
     fetchExams();
@@ -31,15 +32,15 @@ export default function HealthManagementScreen() {
 
   const handleFilterChange = (text) => {
     setFilter(text);
-    let filteredData = exams;
-    if (text.trim() !== '') {
-      filteredData = exams.filter(exam => 
+    if (text.trim() === '') {
+      setFilteredExams(exams);
+    } else {
+      const filteredData = exams.filter(exam => 
         exam.name.toLowerCase().includes(text.toLowerCase())
       );
+      setFilteredExams(filteredData);
     }
-    setFilteredExams(filteredData);
   };
-  
 
   const handleSortChange = () => {
     const sortedData = [...filteredExams].sort((a, b) => {
@@ -54,7 +55,6 @@ export default function HealthManagementScreen() {
     setFilteredExams(sortedData);
     setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
   };
-  
 
   const abrirModal = (name, result, date) => {
     setModalData({ name, result, date });

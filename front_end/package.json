@@ -20,6 +20,7 @@
     "body-parser": "^1.20.2",
     "dotenv": "^16.4.5",
     "expo": "^51.0.2",
+    "expo-auth-session": "~5.5.2",
     "expo-camera": "~15.0.9",
     "expo-linear-gradient": "~13.0.2",
     "expo-status-bar": "~1.11.1",
@@ -33,7 +34,7 @@
     "react-native-screens": "~3.29.0",
     "react-native-svg": "^15.2.0",
     "react-native-web": "~0.19.6",
-    "expo-auth-session": "~5.5.2"
+    "react-native-webview": "^13.10.3"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

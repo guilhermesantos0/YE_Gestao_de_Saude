@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { SafeAreaView, View, Text, TouchableOpacity, Image } from "react-native";
 import { Camera } from "expo-camera";
 import Ionicons from '@expo/vector-icons/Ionicons';
-import Tesseract from 'tesseract.js';
+// import Tesseract from 'tesseract.js';
 import styles from "./style";
 
 const Adicionar = () => {
