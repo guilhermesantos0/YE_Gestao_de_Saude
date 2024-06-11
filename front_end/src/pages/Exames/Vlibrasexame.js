@@ -64,20 +64,20 @@ const VLibras = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    position: 'absolute',
-    right: 0,
-    top: '50%',
-    transform: [{ translateY: -200 }],
-    width: 200,
-    height: 400,
-    backgroundColor: 'transparent',
-    zIndex: 1000,
-  },
-  webview: {
-    flex: 1,
-    backgroundColor: 'transparent',
-  },
-});
+    container: {
+      position: 'absolute',
+      right: 0,
+      top: '50%',
+      transform: [{ translateY: -200 }],
+      width: 200,
+      height: 400,
+      backgroundColor: 'transparent',
+      zIndex: 1000,
+    },
+    webview: {
+      flex: 1,
+      backgroundColor: 'transparent',
+    },
+  });
 
 export default VLibras;

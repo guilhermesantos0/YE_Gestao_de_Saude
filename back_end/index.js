@@ -256,24 +256,25 @@ app.get('/examspuxar/:userId', (req, res) => {
   });
 });
 
-app.post('/examsmandar/:userId', (req, res) => {
-  const userId = req.params.userId;
-  const sql = 'INSERT INTO exams (user_id, name, result, date) VALUES (?, ?, ?, ?) RETURNING id';
-  db.query(sql, [user_id, name, result, date], (err, result) => {
+app.post('/examsmandar', (req, res) => {
+  const { userId, name, date, result } = req.body;
+  const sql = "INSERT INTO exams (user_id, name, result, date) VALUES (?, ?, ?, ?)";
+  
+  db.query(sql, [userId, name, result, date], (err, result) => {
     if (err) {
-      console.error('Erro ao adicionar exame:', err);
-      res.status(500).json({ error: 'Erro ao adicionar exame' });
+      console.error('Erro ao inserir exame:', err);
+      res.status(500).send('Erro ao adicionar exame');
       return;
     }
-    res.status(201).json({ message: 'Exame adicionado com sucesso', insertId: result.rows[0].id });
+    res.status(200).send({ insertId: result.insertId });
   });
 });
 
-app.delete('/examsdeletar/:userId', (req, res) => {
-  const userId = req.params.userId; 
+app.delete('/examsdeletar/:examId', (req, res) => {
+  const examId = req.params.examId; 
   const sql = 'DELETE FROM exams WHERE id = ?'; 
   
-  db.query(sql, [userId], (err, results) => { 
+  db.query(sql, [examId], (err, results) => { 
     if (err) {
       console.error('Erro ao excluir exame:', err);
       res.status(500).send('Erro ao excluir exame');
@@ -282,6 +283,7 @@ app.delete('/examsdeletar/:userId', (req, res) => {
     res.status(200).send({ message: 'Exame excluído com sucesso' });
   });
 });
+
 
 
 
@@ -316,3 +318,6 @@ app.post('/editProfile/:id', (req, res) => {
       }
   });
 });
+// ===================================================
+// Perfil
+// ===================================================

@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
         padding: 10,
         backgroundColor: '#f8f8f8',
         marginTop: 20,
-        height: 80
+        height: 90
     },
     headerTitle: {
         fontSize: 20,
@@ -16,20 +16,26 @@ const styles = StyleSheet.create({
     },
     profile: {
         width: '100%',
-        height: 200,
+        height: 250,
         marginTop: 50,
         alignItems: 'center',
         justifyContent: 'center'
     },
+    profileButtonText: {
+        fontSize: 35
+    },
     profileImage: {
-        width: 150,
-        height: 150,
+        width: 200,
+        height: 200,
         borderRadius: 100,
         borderWidth: 3,
         borderColor: 'black'
     },
     profileName: {
+        alignItems: 'center',
+        justifyContent: 'center',
         fontSize: 20,
+        width: '20%',
         marginTop: 20
     },
     examsContainer: {
@@ -54,7 +60,7 @@ const styles = StyleSheet.create({
     },
     examResult: {
         width: '100%',
-        height: 50,
+        height: 55,
         borderRadius: 20,
         alignItems: 'center',
         justifyContent: 'center',

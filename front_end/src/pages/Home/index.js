@@ -53,7 +53,7 @@ const Home = ({ navigation }) => {
             <View style={styles.header}>
                 <Text style={styles.headerTitle}>YE Gestão Saúde</Text>
                 <TouchableOpacity style={styles.profileButton} onPress={() => navigation.navigate('Perfil')}>
-                    <Text style={styles.profileButtonText}>Editar Perfil</Text>
+                    <Text style={styles.profileButtonText}>⚙️</Text>
                 </TouchableOpacity>
             </View>
 
