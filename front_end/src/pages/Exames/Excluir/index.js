@@ -1,20 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Button, ScrollView, Alert } from 'react-native';
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import config from '../../../../config';
 import styles from './style';
+import VLibras from './Vlibraexcluir'; 
 
-const DeleteExamsScreen = () => {
+export default function DeleteExamsScreen() {
   const [exams, setExams] = useState([]);
 
   useEffect(() => {
-    // Função para buscar exames do backend
     const fetchExams = async () => {
       try {
-        const response = await axios.get('http://<YOUR_SERVER_URL>/exams');
-        setExams(response.data);
+        const Id = await AsyncStorage.getItem("userId");
+        const response = await axios.get(`${config.apiBaseUrl}/examspuxar/${Id}`);
+        if (Array.isArray(response.data)) {
+          setExams(response.data);
+        } else {
+          console.error('Response data is not an array:', response.data);
+        }
       } catch (error) {
-        console.error('Erro ao buscar exames:', error);
-        Alert.alert('Erro', 'Erro ao buscar exames');
+        console.error('Error fetching data:', error);
       }
     };
 
@@ -34,7 +40,7 @@ const DeleteExamsScreen = () => {
           text: 'Deletar',
           onPress: async () => {
             try {
-              await axios.delete(`http://<YOUR_SERVER_URL>/exams/${id}`);
+              await axios.delete(`${config.apiBaseUrl}/examsdeletar/${id}`);
               const updatedExams = exams.filter(exam => exam.id !== id);
               setExams(updatedExams);
               Alert.alert('Sucesso', 'Exame excluído com sucesso');
@@ -63,10 +69,9 @@ const DeleteExamsScreen = () => {
   return (
     <View style={styles.container}>
       <ScrollView>
-        {renderExams()}
+        {exams.length > 0 ? renderExams() : <Text>Nenhum exame encontrado.</Text>}
       </ScrollView>
+      <VLibras /> 
     </View>
   );
 };
-
-export default DeleteExamsScreen;

@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     examResultText: {
         textAlign: 'center',
         color: '#FFF'
-    }
-})
+    },
+});
 
-export default styles
+export default styles;

@@ -1,12 +1,12 @@
-import { View, Text, Image, TouchableOpacity } from "react-native";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
+import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
 import HomeNavigation from "../../components/HomeNavigation";
-import styles from "./style";
-
 import config from "../../../config";
+import VLibras from './Vlibrashome';
+import styles from "./style";
 
 const Home = ({ navigation }) => {
     const [name, setName] = useState('');
@@ -41,7 +41,7 @@ const Home = ({ navigation }) => {
     }, [height, weight]);
 
     return (
-        <View>
+        <View style={{ flex: 1 }}>
             <View style={styles.header}>
                 <Text style={styles.headerTitle}>YE Gestão Saúde</Text>
                 <TouchableOpacity style={styles.profileButton} onPress={() => navigation.navigate('Perfil')}>
@@ -78,7 +78,8 @@ const Home = ({ navigation }) => {
                 </View>
             </View>
 
-            <HomeNavigation></HomeNavigation>
+            <HomeNavigation />
+            <VLibras />
         </View>
     );
 };

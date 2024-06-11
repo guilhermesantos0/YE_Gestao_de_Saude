@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, Modal, Button, TextInput } from 'react-native';
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import config from '../../../../config';
 import styles from "./style";
+import VLibras from './Vlibraadicionar';
 
-const HealthManagementScreen = () => {
+export default function HealthManagementScreen() {
   const [exams, setExams] = useState([]);
   const [filteredExams, setFilteredExams] = useState([]);
   const [filter, setFilter] = useState('');
@@ -12,35 +15,46 @@ const HealthManagementScreen = () => {
   const [modalData, setModalData] = useState({});
 
   useEffect(() => {
-    axios.get('http://localhost:3000/exams')
+    const fetchExams = async () => {
+    const userId = await AsyncStorage.getItem("userId");
+    axios.get(`${config.apiBaseUrl}/examspuxar/${userId}`)
       .then(response => {
         setExams(response.data);
-        setFilteredExams(response.data);
       })
       .catch(error => {
         console.error('Error fetching data:', error);
       });
+    }
+
+    fetchExams();
   }, []);
-  
+
   const handleFilterChange = (text) => {
     setFilter(text);
-    const filteredData = exams.filter(exam => 
-      exam.name.toLowerCase().includes(text.toLowerCase())
-    );
+    let filteredData = exams;
+    if (text.trim() !== '') {
+      filteredData = exams.filter(exam => 
+        exam.name.toLowerCase().includes(text.toLowerCase())
+      );
+    }
     setFilteredExams(filteredData);
   };
+  
 
   const handleSortChange = () => {
     const sortedData = [...filteredExams].sort((a, b) => {
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
       if (sortOrder === 'asc') {
-        return new Date(a.date) - new Date(b.date);
+        return dateA - dateB;
       } else {
-        return new Date(b.date) - new Date(a.date);
+        return dateB - dateA;
       }
     });
     setFilteredExams(sortedData);
     setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
   };
+  
 
   const abrirModal = (name, result, date) => {
     setModalData({ name, result, date });
@@ -69,35 +83,35 @@ const HealthManagementScreen = () => {
         onChangeText={handleFilterChange}
       />
       <View style={styles.sortButton}>
-        <Button title={`Ordenar por data (${sortOrder === 'asc' ? 'Mais antigos' : 'Mais novos'})`} onPress={handleSortChange}  color={'#789484'}/>
+        <Button title={`Ordenar por data (${sortOrder === 'asc' ? 'Mais antigos' : 'Mais novos'})`} onPress={handleSortChange} color={'#789484'} />
       </View>
       <ScrollView>
         {renderizarCaixas()}
       </ScrollView>
 
       <Modal
-          animationType="slide"
-          transparent={false}
-          visible={modalVisible}
-          onRequestClose={() => setModalVisible(!modalVisible)}
-        >
-          <View style={styles.fullScreenView}>
-            <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>Detalhes do Exame:</Text>
-              <Button title="Fechar" onPress={() => setModalVisible(!modalVisible)} color={'#df0000'} />
-            </View>
-            <View style={styles.modalContent}>
-              <Text style={styles.modalLabel}>Nome:</Text>
-              <Text style={styles.modalText}>{modalData.name}</Text>
-              <Text style={styles.modalLabel}>Data:</Text>
-              <Text style={styles.modalText}>{modalData.date}</Text>
-              <Text style={styles.modalLabel}>Resultado:</Text>
-              <Text style={styles.result}>{modalData.result}</Text>
-            </View>
+        animationType="slide"
+        transparent={false}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(!modalVisible)}
+      >
+        <View style={styles.fullScreenView}>
+          <View style={styles.modalHeader}>
+            <Text style={styles.modalTitle}>Detalhes do Exame:</Text>
+            <Button title="Fechar" onPress={() => setModalVisible(!modalVisible)} color={'#df0000'} />
           </View>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalLabel}>Nome:</Text>
+            <Text style={styles.modalText}>{modalData.name}</Text>
+            <Text style={styles.modalLabel}>Data:</Text>
+            <Text style={styles.modalText}>{modalData.date}</Text>
+            <Text style={styles.modalLabel}>Resultado:</Text>
+            <Text style={styles.result}>{modalData.result}</Text>
+          </View>
+        </View>
       </Modal>
+
+      <VLibras />
     </View>
   );
 };
-
-export default HealthManagementScreen;

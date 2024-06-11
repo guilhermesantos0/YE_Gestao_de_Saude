@@ -1,11 +1,11 @@
+import React, { useState, useEffect } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
-import { useState, useEffect } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
 import styles from "./style";
-
 import config from "../../../config";
+import VLibras from './VlibraPerfil'; 
 
 const EditProfile = ({ navigation }) => {
     const [name, setName] = useState('');
@@ -104,6 +104,7 @@ const EditProfile = ({ navigation }) => {
             <TouchableOpacity style={styles.logoffButton} onPress={handleLogoff}>
                 <Text style={styles.saveButtonText}>LogOff</Text>
             </TouchableOpacity>
+            <VLibras />
         </View>
     );
 };
