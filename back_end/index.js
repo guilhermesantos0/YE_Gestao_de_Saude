@@ -293,3 +293,26 @@ app.delete('/examsdeletar/:userId', (req, res) => {
 app.listen(process.env.PORT, () => {
   console.log('Servidor rodando na porta 3000')
 })
+
+// ===================================================
+// Perfil
+// ===================================================
+app.post('/editProfile/:id', (req, res) => {
+  const userId = req.params.id;
+  const { name, cpf, weight, height, bornDate } = req.body;
+
+  const sql = `
+      UPDATE user_data
+      SET name = ?, cpf = ?, weight = ?, height = ?, bornDate = ?
+      WHERE id = ?
+  `;
+
+  db.query(sql, [name, cpf, weight, height, bornDate, userId], (err, result) => {
+      if (err) {
+          console.error('Erro ao atualizar perfil:', err);
+          res.status(500).json({ error: 'Erro ao atualizar perfil' });
+      } else {
+          res.json({ message: 'Perfil atualizado com sucesso' });
+      }
+  });
+});

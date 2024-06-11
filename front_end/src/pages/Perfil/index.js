@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-
 import styles from "./style";
 import config from "../../../config";
 import VLibras from './VlibraPerfil'; 
@@ -71,31 +70,31 @@ const EditProfile = ({ navigation }) => {
                 style={styles.input}
                 placeholder="Nome"
                 value={name}
-                onChangeText={setName}
+                onChangeText={text => setName(text)} 
             />
             <TextInput
                 style={styles.input}
                 placeholder="CPF"
                 value={cpf}
-                onChangeText={setCpf}
+                onChangeText={text => setCpf(text)} 
             />
             <TextInput
                 style={styles.input}
                 placeholder="Peso"
-                value={`${weight} kg`}
-                onChangeText={setWeight}
+                value={weight}
+                onChangeText={text => setWeight(text)} // Certifique-se de que a função setWeight está corretamente vinculada ao evento onChangeText
             />
             <TextInput
                 style={styles.input}
                 placeholder="Altura"
-                value={`${height} m`}
-                onChangeText={setHeight}
+                value={height}
+                onChangeText={text => setHeight(text)} // Certifique-se de que a função setHeight está corretamente vinculada ao evento onChangeText
             />
             <TextInput
                 style={styles.input}
                 placeholder="Data de Nascimento"
                 value={bornDate}
-                onChangeText={setBornDate}
+                onChangeText={text => setBornDate(text)} // Certifique-se de que a função setBornDate está corretamente vinculada ao evento onChangeText
             />
             <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
                 <Text style={styles.saveButtonText}>Salvar</Text>
