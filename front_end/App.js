@@ -38,8 +38,8 @@ export default function App() {
         <Stack.Screen name='Exames/Excluir'component={Excluir} options={{ title: 'Excluir Exame'}}></Stack.Screen>
         <Stack.Screen name='Consultas' component={Consultas}></Stack.Screen>
         <Stack.Screen name='Medicacoes' component={Medicamentos}></Stack.Screen>
-        <Stack.Screen name='Adicionar/Manual' component={Manual}></Stack.Screen>
         {/* <Stack.Screen name='Medicacoes/Adicionar' component={M_Adicionar}></Stack.Screen> */}
+        <Stack.Screen name='Adicionar/Manual' component={Manual}></Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );
