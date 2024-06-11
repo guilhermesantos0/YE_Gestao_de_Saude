@@ -99,7 +99,7 @@ export default function CombinedScreen({ navigation }) {
         <View style={styles.fullScreenView}>
           <View style={styles.modalHeader}>
             <Text style={styles.modalTitle}>Detalhes do Exame:</Text>
-            <Button title="Fechar" onPress={() => setModalVisible(false)} color={'#df0000'} />
+            <Button title="Fechar" onPress={() => setModalVisible(false)} color={'#789484'} />
           </View>
           <View style={styles.modalContent}>
             <Text style={styles.modalLabel}>Nome:</Text>
