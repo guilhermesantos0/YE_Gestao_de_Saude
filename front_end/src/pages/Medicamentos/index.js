@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import RNPickerSelect from 'react-native-picker-select';
 import styles from './style';
 import config from '../../../config';
+import VLibras from './VlibraMedicamentios'; 
 
 const Medicamentos = () => {
   const [medicines, setMedicines] = useState([]);
@@ -170,6 +171,7 @@ const Medicamentos = () => {
           </View>
         </View>
       </Modal>
+      <VLibras />
     </View>
   );
 };

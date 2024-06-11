@@ -1,22 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Button, ScrollView, Alert } from 'react-native';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import config from '../../../../config';
 import styles from './style';
+import VLibras from './Vlibraexcluir'; 
 
-const localExams = [
-  { id: 1, name: 'Exame de Sangue', date: '2024-05-01' },
-  { id: 2, name: 'Exame de Urina', date: '2024-06-01' },
-  { id: 3, name: 'Exame de Colesterol', date: '2024-04-20' },
-  { id: 4, name: 'Exame de Glicose', date: '2024-03-15' },
-  { id: 5, name: 'Exame de Tireoide', date: '2024-02-10' },
-  { id: 6, name: 'Exame de Fezes', date: '2024-01-25' },
-  { id: 7, name: 'Exame de Raio-X', date: '2024-03-22' },
-  { id: 8, name: 'Exame de ECG', date: '2024-04-05' },
-  { id: 9, name: 'Exame de Audiometria', date: '2024-05-10' },
-  { id: 10, name: 'Exame de Função Pulmonar', date: '2024-06-05' }
-];
+export default function DeleteExamsScreen() {
+  const [exams, setExams] = useState([]);
 
-const DeleteExamsScreen = () => {
-  const [exams, setExams] = useState(localExams);
+  useEffect(() => {
+    const fetchExams = async () => {
+      try {
+        const Id = await AsyncStorage.getItem("userId");
+        const response = await axios.get(`${config.apiBaseUrl}/examspuxar/${Id}`);
+        if (Array.isArray(response.data)) {
+          setExams(response.data);
+        } else {
+          console.error('Response data is not an array:', response.data);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchExams();
+  }, []);
 
   const deleteExam = (id) => {
     Alert.alert(
@@ -29,10 +38,16 @@ const DeleteExamsScreen = () => {
         },
         {
           text: 'Deletar',
-          onPress: () => {
-            const updatedExams = exams.filter(exam => exam.id !== id);
-            setExams(updatedExams);
-            Alert.alert('Sucesso', 'Exame excluído com sucesso');
+          onPress: async () => {
+            try {
+              await axios.delete(`${config.apiBaseUrl}/examsdeletar/${id}`);
+              const updatedExams = exams.filter(exam => exam.id !== id);
+              setExams(updatedExams);
+              Alert.alert('Sucesso', 'Exame excluído com sucesso');
+            } catch (error) {
+              console.error('Erro ao excluir exame:', error);
+              Alert.alert('Erro', 'Erro ao excluir exame');
+            }
           }
         }
       ]
@@ -54,10 +69,9 @@ const DeleteExamsScreen = () => {
   return (
     <View style={styles.container}>
       <ScrollView>
-        {renderExams()}
+        {exams.length > 0 ? renderExams() : <Text>Nenhum exame encontrado.</Text>}
       </ScrollView>
+      <VLibras /> 
     </View>
   );
 };
-
-export default DeleteExamsScreen;

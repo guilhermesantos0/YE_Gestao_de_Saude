@@ -3,10 +3,9 @@ import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Modal, TextInput,
 import { LinearGradient } from 'expo-linear-gradient';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 import styles from './style';
-
 import config from '../../../config';
+import VLibras from './Vlibraconsultas';
 
 const Consultas = ({ navigation }) => {
     const [data, setData] = useState([]);
