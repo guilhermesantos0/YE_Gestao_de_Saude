@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "YE_Gestao_Saude",
-    "slug": "YE_Gestao_Saude",
+    "slug": "ye-gestao-saude",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -25,6 +25,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "23075afb-126f-44f0-a1fa-11389da3331c"
+      }
+    },
+    "owner": "guilhermesantosdev"
   }
 }

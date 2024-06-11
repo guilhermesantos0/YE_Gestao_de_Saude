@@ -17,6 +17,7 @@ import Excluir from './src/pages/Exames/Excluir';
 import Consultas from './src/pages/Consultas';
 import Medicamentos from './src/pages/Medicamentos';
 // import M_Adicionar from './src/pages/Medicamentos/Adicionar';
+import Manual from './src/pages/Exames/Adicionar/Manual';
 
 export default function App() {
   return (
@@ -34,6 +35,7 @@ export default function App() {
         <Stack.Screen name='Exames/Excluir'component={Excluir} options={{ title: 'Excluir Exame'}}></Stack.Screen>
         <Stack.Screen name='Consultas' component={Consultas}></Stack.Screen>
         <Stack.Screen name='Medicacoes' component={Medicamentos}></Stack.Screen>
+        <Stack.Screen name='Adicionar/Manual' component={Manual}></Stack.Screen>
         {/* <Stack.Screen name='Medicacoes/Adicionar' component={M_Adicionar}></Stack.Screen> */}
       </Stack.Navigator>
     </NavigationContainer>
