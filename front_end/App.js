@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { LogBox } from 'react-native';
 
 const Stack = createNativeStackNavigator()
 import Login from './src/pages/Login';
@@ -17,6 +18,8 @@ import Medicamentos from './src/pages/Medicamentos';
 import Manual from './src/pages/Exames/Adicionar/Manual';
 
 export default function App() {
+  LogBox.ignoreAllLogs(true);
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -35,12 +38,3 @@ export default function App() {
     </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
