@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-evenly'
     },
     externalLoginImage: {
-        width: 50,
+        width: 250,
         height: 50
     },
     signUp: {

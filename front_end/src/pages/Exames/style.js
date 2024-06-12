@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -6,60 +6,72 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: '#f5f5f5',
   },
+  box: {
+    backgroundColor: '#fff',
+    padding: 16,
+    borderRadius: 4,
+    marginBottom: 16,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 5 },
+    elevation: 5,
+  },
+  boxText: {
+    fontSize: 16,
+    color: '#333',
+    flexShrink: 1,
+  },
+  fullScreenView: {
+    flex: 1,
+    justifyContent: 'flex-start',
+    alignItems: 'stretch',
+    backgroundColor: '#fff',
+    padding: 20,
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
+    paddingBottom: 10,
+    marginBottom: 20,
+  },
+  modalTitle: {
+    fontSize: 21,
+    fontWeight: 'bold',
+  },
+  modalContent: {
+    flex: 1,
+  },
+  modalLabel: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  modalText: {
+    fontSize: 16,
+    marginBottom: 15,
+    textAlign: 'left',
+  },
   result: {
     fontSize: 16,
     textAlign: 'justify',
     textAlignVertical: 'top',
   },
-  line: {
-    alignItems: 'center',
-    marginTop: 20,
-  },
-  title: {
-    fontSize: 20,
-  },
-  profile: {
-    width: '100%',
-    height: 200,
-    marginTop: 50,
+  addButton: {
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  profileImage: {
-    width: 150,
-    height: 150,
-    borderRadius: 100,
-    borderWidth: 3,
-    borderColor: 'black',
-  },
-  profileName: {
-    fontSize: 20,
-    marginTop: 10,
-
-  },
-  examsContainer: {
-    width: '100%',
-    alignItems: 'center',
-  },
-  exams: {
-    marginTop: 100,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    width: '90%',
-    height: 300,
-    gap: 30,
-    justifyContent: 'center',
-  },
-  button: {
-    width: '40%',
-    height: 70,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#789484',
-    borderRadius: 10,
+    paddingVertical: 12,
+    borderRadius: 4,
+    marginTop: 16,
   },
   buttonText: {
-    color: '#FFF',
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
 

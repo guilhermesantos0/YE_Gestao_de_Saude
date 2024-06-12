@@ -54,7 +54,7 @@ const Consultas = ({ navigation }) => {
             .then(response => {
                 console.log('Consulta adicionada com sucesso');
                 setData([...data, {
-                    id: response.data.insertId,  // Supondo que o ID retornado é insertId
+                    id: response.data.insertId, 
                     name: newTitle,
                     date: newDate,
                     time: newTime,

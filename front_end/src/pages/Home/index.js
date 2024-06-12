@@ -37,7 +37,15 @@ const Home = ({ navigation }) => {
     }, []);
 
     useEffect(() => {
-        setImc(weight / (height * height));
+        const calculateIMC = () => {
+            if (height && weight) {
+                const heightInMeters = height / 100; 
+                const calculatedIMC = weight / (heightInMeters * heightInMeters);
+                setImc(calculatedIMC.toFixed(2)); 
+            }
+        };
+
+        calculateIMC();
     }, [height, weight]);
 
     return (
@@ -45,7 +53,7 @@ const Home = ({ navigation }) => {
             <View style={styles.header}>
                 <Text style={styles.headerTitle}>YE Gestão Saúde</Text>
                 <TouchableOpacity style={styles.profileButton} onPress={() => navigation.navigate('Perfil')}>
-                    <Text style={styles.profileButtonText}>Editar Perfil</Text>
+                    <Text style={styles.profileButtonText}>⚙️</Text>
                 </TouchableOpacity>
             </View>
 
@@ -68,7 +76,7 @@ const Home = ({ navigation }) => {
 
                     <View style={styles.exam}>
                         <Text style={styles.examName}>Última verificação de peso e altura</Text>
-                        <View style={styles.examResult}><Text style={styles.examResultText}>{`${weight}Kg\n${height}cm`}</Text></View>
+                        <View style={styles.examResult}><Text style={styles.examResultText}>{`${weight}KG\n${height}CM`}</Text></View>
                     </View>
 
                     <View style={styles.exam}>

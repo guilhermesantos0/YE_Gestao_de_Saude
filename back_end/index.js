@@ -256,24 +256,25 @@ app.get('/examspuxar/:userId', (req, res) => {
   });
 });
 
-app.post('/examsmandar/:userId', (req, res) => {
-  const userId = req.params.userId;
-  const sql = 'INSERT INTO exams (user_id, name, result, date) VALUES (?, ?, ?, ?) RETURNING id';
-  db.query(sql, [user_id, name, result, date], (err, result) => {
+app.post('/examsmandar', (req, res) => {
+  const { userId, name, date, result } = req.body;
+  const sql = "INSERT INTO exams (user_id, name, result, date) VALUES (?, ?, ?, ?)";
+  
+  db.query(sql, [userId, name, result, date], (err, result) => {
     if (err) {
-      console.error('Erro ao adicionar exame:', err);
-      res.status(500).json({ error: 'Erro ao adicionar exame' });
+      console.error('Erro ao inserir exame:', err);
+      res.status(500).send('Erro ao adicionar exame');
       return;
     }
-    res.status(201).json({ message: 'Exame adicionado com sucesso', insertId: result.rows[0].id });
+    res.status(200).send({ insertId: result.insertId });
   });
 });
 
-app.delete('/examsdeletar/:userId', (req, res) => {
-  const userId = req.params.userId; 
+app.delete('/examsdeletar/:examId', (req, res) => {
+  const examId = req.params.examId; 
   const sql = 'DELETE FROM exams WHERE id = ?'; 
   
-  db.query(sql, [userId], (err, results) => { 
+  db.query(sql, [examId], (err, results) => { 
     if (err) {
       console.error('Erro ao excluir exame:', err);
       res.status(500).send('Erro ao excluir exame');
@@ -286,6 +287,7 @@ app.delete('/examsdeletar/:userId', (req, res) => {
 
 
 
+
 // ===================================================
 // EXPRESS
 // ===================================================
@@ -293,3 +295,83 @@ app.delete('/examsdeletar/:userId', (req, res) => {
 app.listen(process.env.PORT, () => {
   console.log('Servidor rodando na porta 3000')
 })
+
+// ===================================================
+// Perfil
+// ===================================================
+app.post('/editProfile/:id', (req, res) => {
+  const userId = req.params.id;
+  const { name, cpf, weight, height, bornDate } = req.body;
+
+  const sql = `
+      UPDATE user_data
+      SET name = ?, cpf = ?, weight = ?, height = ?, bornDate = ?
+      WHERE id = ?
+  `;
+
+  db.query(sql, [name, cpf, weight, height, bornDate, userId], (err, result) => {
+      if (err) {
+          console.error('Erro ao atualizar perfil:', err);
+          res.status(500).json({ error: 'Erro ao atualizar perfil' });
+      } else {
+          res.json({ message: 'Perfil atualizado com sucesso' });
+      }
+  });
+});
+
+// ===================================================
+// Pressão
+// ===================================================
+app.get('/bloodpressurea/:userId', (req, res) => {
+  const userId = req.params.userId;
+  const sql = 'SELECT * FROM user_Pessao_Arterial WHERE user_id = ?';
+  db.query(sql, [userId], (err, results) => {
+    if (err) {
+      console.error('Erro ao buscar registros de pressão arterial:', err);
+      res.status(500).send('Erro ao buscar registros de pressão arterial');
+      return;
+    }
+    res.json(results);
+  });
+});
+app.post('/bloodpressure', (req, res) => {
+  const { userId, sistole, diastole, date } = req.body;
+  const sql = "INSERT INTO user_Pessao_Arterial (user_id, sistole, diastole, date) VALUES (?, ?, ?, ?)";
+
+  db.query(sql, [userId, sistole, diastole, date], (err, result) => {
+    if (err) {
+      console.error('Erro ao inserir registro de pressão arterial:', err);
+      res.status(500).send('Erro ao adicionar registro de pressão arterial');
+      return;
+    }
+    res.status(200).send({ insertId: result.insertId });
+  });
+});
+// ===================================================
+// Glicemia
+// ===================================================
+app.get('/glicemiaa/:userId', (req, res) => {
+  const userId = req.params.userId;
+  const sql = 'SELECT * FROM user_Glicemia WHERE user_id = ?';
+  db.query(sql, [userId], (err, results) => {
+    if (err) {
+      console.error('Erro ao buscar registros de glicemia:', err);
+      res.status(500).send('Erro ao buscar registros de glicemia');
+      return;
+    }
+    res.json(results);
+  });
+});
+app.post('/glicemia', (req, res) => {
+  const { userId, glicemia, jejum, date } = req.body;
+  const sql = "INSERT INTO user_Glicemia (user_id, glicemia, jejum, date) VALUES (?, ?, ?, ?)";
+
+  db.query(sql, [userId, glicemia, jejum, date], (err, result) => {
+    if (err) {
+      console.error('Erro ao inserir registro de glicemia:', err);
+      res.status(500).send('Erro ao adicionar registro de glicemia');
+      return;
+    }
+    res.status(200).send({ insertId: result.insertId });
+  });
+});

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TouchableOpacity, Text, Image, View, TextInput, Keyboard, Pressable } from "react-native";
+import { TouchableOpacity, Text, Image, View, TextInput, Keyboard, Pressable, Alert } from "react-native";
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -17,9 +17,10 @@ const Login = ({ navigation }) => {
             if (response.data.userId) {
                 await AsyncStorage.setItem('userId', response.data.userId.toString());
                 navigation.navigate('Home');
+            }else{
+                Alert.alert('Erro', 'Erro ao fazer login');
             }
         } catch (error) {
-            console.error('Erro ao fazer login:', error);
             Alert.alert('Erro', 'Erro ao fazer login');
         }
     };
@@ -56,9 +57,6 @@ const Login = ({ navigation }) => {
                 <View style={styles.externalLoginContainer}>
                     <TouchableOpacity>
                         <Image style={styles.externalLoginImage} source={require("./images/google.png")}></Image>
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <Image style={styles.externalLoginImage} source={require("./images/facebook.png")}></Image>
                     </TouchableOpacity>
                 </View>
             </View>
