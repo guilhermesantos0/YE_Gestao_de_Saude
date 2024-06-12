@@ -1,0 +1,53 @@
+import React, { useState } from 'react';
+import { View, Text, Button } from 'react-native';
+import RNFetchBlob from 'rn-fetch-blob';
+import { PDFDocument } from 'pdf-lib';
+import DocumentPicker from 'react-native-document-picker';
+
+const PdfReader = () => {
+  const [pdfText, setPdfText] = useState('');
+
+  const pickDocument = async () => {
+    try {
+      const res = await DocumentPicker.pick({
+        type: [DocumentPicker.types.pdf],
+      });
+      const filePath = res.uri;
+      readPdf(filePath);
+    } catch (err) {
+      if (DocumentPicker.isCancel(err)) {
+        console.log('User cancelled the picker');
+      } else {
+        throw err;
+      }
+    }
+  };
+
+  const readPdf = async (filePath) => {
+    try {
+      const pdfBytes = await RNFetchBlob.fs.readFile(filePath, 'base64');
+      const pdfDoc = await PDFDocument.load(pdfBytes);
+      let text = '';
+
+      const pages = pdfDoc.getPages();
+      for (const page of pages) {
+        const { width, height } = page.getSize();
+        const pageText = await page.getTextContent();
+        text += pageText.items.map(item => item.str).join(' ');
+      }
+
+      setPdfText(text);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  return (
+    <View style={{ padding: 20 }}>
+      <Button title="Pick PDF" onPress={pickDocument} />
+      <Text>{pdfText}</Text>
+    </View>
+  );
+};
+
+export default PdfReader;
