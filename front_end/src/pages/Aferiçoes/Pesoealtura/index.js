@@ -36,8 +36,9 @@ const AlturaPeso = () => {
     try {
       const userId = await AsyncStorage.getItem('userId');
       const updatedProfile = {
-        altura,
-        peso
+        height: altura,
+        weight: peso,
+        type: 1
       };
 
       await axios.post(`${config.apiBaseUrl}/editProfile/${userId}`, updatedProfile);

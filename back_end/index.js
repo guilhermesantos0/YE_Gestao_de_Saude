@@ -169,15 +169,15 @@ app.get('/user/:userId', (req, res) => {
 
 app.post('/editProfile/:id', (req, res) => {
   const userId = req.params.id;
-  const { name, cpf, weight, height, bornDate } = req.body;
+  const { weight, height } = req.body;
 
   const sql = `
       UPDATE user_data
-      SET name = ?, cpf = ?, weight = ?, height = ?, bornDate = ?
+      SET weight = ?, height = ?
       WHERE id = ?
   `;
 
-  db.query(sql, [name, cpf, weight, height, bornDate, userId], (err, result) => {
+  db.query(sql, [weight, height, userId], (err, result) => {
       if (err) {
           console.error('Erro ao atualizar perfil:', err);
           res.status(500).json({ error: 'Erro ao atualizar perfil' });
