@@ -1,0 +1,113 @@
+//passo 1
+npm install @react-native-google-signin/google-signin
+npx pod-install
+
+//passo 2
+//Adicione as permissões necessárias no arquivo android/app/src/main/AndroidManifest.xml:
+
+<application ...>
+  <meta-data
+    android:name="com.google.android.gms.auth.api.phone.SMS_RETRIEVER_API_KEY"
+    android:value="@string/google_maps_key" />
+</application>
+
+//passo 3
+//Configure o Google Sign-In no arquivo android/app/build.gradle:
+
+dependencies {
+  implementation 'com.google.android.gms:play-services-auth:19.0.0'
+}
+
+//passo 4
+//Adicione a configuração do plugin no arquivo android/build.gradle:
+
+buildscript {
+  repositories {
+    mavenCentral()
+    google()
+  }
+  dependencies {
+    classpath 'com.android.tools.build:gradle:4.2.1'
+    classpath 'com.google.gms:google-services:4.3.5'  // add this line
+  }
+}
+
+//passo 5
+//Adicione o plugin apply plugin: 'com.google.gms.google-services' no final do arquivo android/app/build.gradle.
+
+#import <GoogleSignIn/GoogleSignIn.h>
+
+// Add this to the @implementation AppDelegate
+@implementation AppDelegate
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+  // Initialize sign-in
+  [GIDSignIn.sharedInstance restorePreviousSignIn];
+  return YES;
+}
+
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+  return [GIDSignIn.sharedInstance handleURL:url];
+}
+
+@end
+
+
+No Xcode, abra o arquivo AppDelegate.m e configure o Google Sign-In:
+
+#import <GoogleSignIn/GoogleSignIn.h>
+
+// Add this to the @implementation AppDelegate
+@implementation AppDelegate
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+  // Initialize sign-in
+  [GIDSignIn.sharedInstance restorePreviousSignIn];
+  return YES;
+}
+
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+  return [GIDSignIn.sharedInstance handleURL:url];
+}
+
+@end
+
+import React, { useEffect } from 'react';
+import { View, Button, Text } from 'react-native';
+import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
+
+const GoogleLogin = () => {
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId: 'YOUR_WEB_CLIENT_ID.apps.googleusercontent.com', // Substitua pelo seu ID de cliente da web
+    });
+  }, []);
+
+  const signIn = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      console.log(userInfo);
+    } catch (error) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        // Usuário cancelou o login
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        // Login em progresso
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        // Serviços do Google Play não disponíveis ou desatualizados
+      } else {
+        // Outro erro aconteceu
+        console.error(error);
+      }
+    }
+  };
+
+  return (
+    <View>
+      <Button title="Login com Google" onPress={signIn} />
+    </View>
+  );
+};
+
+export default GoogleLogin;
+
