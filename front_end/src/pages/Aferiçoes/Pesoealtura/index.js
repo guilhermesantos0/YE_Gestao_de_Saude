@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, TouchableOpacity, Alert, Modal, TextInput, Button } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, Alert, Modal, TextInput } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from './style';
 import config from '../../../../config';
-import VLibras from './Vlibraspesoealtura';
 
 const AlturaPeso = () => {
   const [records, setRecords] = useState([]);
-  const [selectedId, setSelectedId] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [altura, setAltura] = useState('');
   const [peso, setPeso] = useState('');
@@ -17,11 +15,11 @@ const AlturaPeso = () => {
     try {
       const userId = await AsyncStorage.getItem('userId');
       if (userId) {
-        const response = await axios.get(`${config.apiBaseUrl}/bloodpressure/${userId}`);
+        const response = await axios.get(`${config.apiBaseUrl}/user/${userId}`);
         setRecords(response.data);
       }
     } catch (error) {
-      console.error('Erro ao buscar registros de altura e peso do usuário:', error);
+      console.error('Erro ao buscar registros de altura e peso do usuÃ¡rio:', error);
     }
   };
 
@@ -29,32 +27,7 @@ const AlturaPeso = () => {
     fetchUserRecords();
   }, []);
 
-  const handleAddRecord = async () => {
-    if (!altura || !peso) {
-      alert('Por favor, preencha todos os campos.');
-      return;
-    }
-
-    try {
-      const userId = await AsyncStorage.getItem('userId');
-      const newRecord = {
-        userId,
-        altura,
-        peso,
-        date: new Date().toISOString().split('T')[0]
-      };
-
-      const response = await axios.post(`${config.apiBaseUrl}/bloodpressure`, newRecord);
-      setRecords(prevRecords => [...prevRecords, { ...newRecord, id: response.data.insertId }]);
-      setModalVisible(false);
-      setAltura('');
-      setPeso('');
-    } catch (error) {
-      console.error('Erro ao adicionar registro de altura e peso:', error);
-    }
-  };
-
-  const handleEditProfile = async () => {
+  const handleSaveProfile = async () => {
     if (!altura || !peso) {
       alert('Por favor, preencha todos os campos.');
       return;
@@ -64,47 +37,35 @@ const AlturaPeso = () => {
       const userId = await AsyncStorage.getItem('userId');
       const updatedProfile = {
         altura,
-        peso,
+        peso
       };
 
       await axios.post(`${config.apiBaseUrl}/editProfile/${userId}`, updatedProfile);
-      alert('Perfil atualizado com sucesso!');
+      setModalVisible(false);
+      setAltura('');
+      setPeso('');
+      fetchUserRecords();
     } catch (error) {
-      console.error('Erro ao atualizar perfil:', error);
-      alert('Erro ao atualizar perfil. Por favor, tente novamente.');
+      console.error('Erro ao atualizar perfil de altura e peso:', error);
     }
-  };
-
-  const renderItem = ({ item }) => {
-    const backgroundColor = item.id === selectedId ? "#ddd" : "#fff";
-
-    return (
-      <TouchableOpacity
-        onPress={() => setSelectedId(item.id)}
-        style={[styles.item, { backgroundColor }]}
-      >
-        <Text style={styles.title}>Altura: {item.altura} cm</Text>
-        <Text style={styles.subtitle}>Peso: {item.peso} kg</Text>
-        <Text style={styles.subtitle}>Data: {item.date}</Text>
-      </TouchableOpacity>
-    );
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Aferições de Altura e Peso</Text>
+      <Text style={styles.header}>Editar Perfil: Altura e Peso</Text>
       <FlatList
         data={records}
-        renderItem={renderItem}
         keyExtractor={item => item.id.toString()}
-        extraData={selectedId}
-        style={styles.list}
+        renderItem={({ item }) => (
+          <View style={styles.item}>
+            <Text style={styles.title}>Altura: {item.height} cm</Text>
+            <Text style={styles.subtitle}>Peso: {item.weight} kg</Text>
+          </View>
+        )}
       />
-      <View style={styles.footer}>
-        <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.footerButton}>
-          <Text style={styles.footerButtonText}>➕</Text>
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.footerButton}>
+        <Text style={styles.footerButtonText}>Editar</Text>
+      </TouchableOpacity>
       <Modal
         animationType="slide"
         transparent={true}
@@ -112,14 +73,14 @@ const AlturaPeso = () => {
         onRequestClose={() => setModalVisible(!modalVisible)}
       >
         <View style={styles.modalView}>
-          <Text style={styles.label}>Altura em cm: (cm):</Text>
+          <Text style={styles.label}>Altura (cm):</Text>
           <TextInput
             style={styles.input}
             onChangeText={setAltura}
             value={altura}
             keyboardType="numeric"
           />
-          <Text style={styles.label}>Peso em kg: (kg):</Text>
+          <Text style={styles.label}>Peso (kg):</Text>
           <TextInput
             style={styles.input}
             onChangeText={setPeso}
@@ -130,30 +91,12 @@ const AlturaPeso = () => {
             <TouchableOpacity onPress={() => setModalVisible(false)} style={styles.modalButton}>
               <Text style={styles.modalButtonText}>Cancelar</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={handleAddRecord} style={styles.modalButton}>
-              <Text style={styles.modalButtonText}>Adicionar</Text>
+            <TouchableOpacity onPress={handleSaveProfile} style={styles.modalButton}>
+              <Text style={styles.modalButtonText}>Salvar</Text>
             </TouchableOpacity>
           </View>
         </View>
       </Modal>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Altura (cm)"
-          onChangeText={setAltura}
-          value={altura}
-          keyboardType="numeric"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Peso (kg)"
-          onChangeText={setPeso}
-          value={peso}
-          keyboardType="numeric"
-        />
-        <Button title="Atualizar Perfil" onPress={handleEditProfile} />
-      </View>
-      <VLibras />
     </View>
   );
 };
