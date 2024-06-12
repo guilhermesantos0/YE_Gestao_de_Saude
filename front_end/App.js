@@ -22,7 +22,7 @@ import Pdf from './src/pages/Exames/Adicionar/Pdf';
 import Manual from './src/pages/Exames/Adicionar/Manual';
 
 export default function App() {
-  LogBox.ignoreAllLogs(true);
+  // LogBox.ignoreAllLogs(true);
 
   return (
     <NavigationContainer>

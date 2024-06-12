@@ -46,7 +46,7 @@ export default function CadastroExame() {
 
       console.log('Resposta da API:', response);
 
-      if (response.status === 201) {
+      if (response.status === 200) {
         Alert.alert('Sucesso', 'Exame cadastrado com sucesso!', [
           {
             text: "OK",

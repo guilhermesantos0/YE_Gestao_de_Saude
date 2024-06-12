@@ -18,7 +18,7 @@ const Login = ({ navigation }) => {
                 await AsyncStorage.setItem('userId', response.data.userId.toString());
                 navigation.navigate('Home');
             }else{
-                Alert.alert("Erro", "Erro ao fazer login")
+                Alert.alert('Erro', 'Erro ao fazer login');
             }
         } catch (error) {
             Alert.alert('Erro', 'Erro ao fazer login');

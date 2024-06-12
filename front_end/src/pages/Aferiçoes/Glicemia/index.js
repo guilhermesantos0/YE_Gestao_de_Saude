@@ -18,7 +18,7 @@ const AfericaoGlicemia = () => {
     try {
       const userId = await AsyncStorage.getItem('userId');
       if (userId) {
-        const response = await axios.get(`${config.apiBaseUrl}/glicemia/${userId}`);
+        const response = await axios.get(`${config.apiBaseUrl}/glicemiaa/${userId}`);
         setGlicemias(response.data);
       }
     } catch (error) {

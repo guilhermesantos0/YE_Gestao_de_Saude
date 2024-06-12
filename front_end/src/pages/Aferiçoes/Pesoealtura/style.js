@@ -86,6 +86,10 @@ const styles = StyleSheet.create({
       fontSize: 18,
       color: 'blue',
     },
+    inputContainer: {
+      paddingHorizontal: 16,
+      paddingVertical: 10,
+    },
 });
 
 export default styles;

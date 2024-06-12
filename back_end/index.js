@@ -318,6 +318,60 @@ app.post('/editProfile/:id', (req, res) => {
       }
   });
 });
+
 // ===================================================
-// Perfil
+// Pressão
 // ===================================================
+app.get('/bloodpressurea/:userId', (req, res) => {
+  const userId = req.params.userId;
+  const sql = 'SELECT * FROM user_Pessao_Arterial WHERE user_id = ?';
+  db.query(sql, [userId], (err, results) => {
+    if (err) {
+      console.error('Erro ao buscar registros de pressão arterial:', err);
+      res.status(500).send('Erro ao buscar registros de pressão arterial');
+      return;
+    }
+    res.json(results);
+  });
+});
+app.post('/bloodpressure', (req, res) => {
+  const { userId, sistole, diastole, date } = req.body;
+  const sql = "INSERT INTO user_Pessao_Arterial (user_id, sistole, diastole, date) VALUES (?, ?, ?, ?)";
+
+  db.query(sql, [userId, sistole, diastole, date], (err, result) => {
+    if (err) {
+      console.error('Erro ao inserir registro de pressão arterial:', err);
+      res.status(500).send('Erro ao adicionar registro de pressão arterial');
+      return;
+    }
+    res.status(200).send({ insertId: result.insertId });
+  });
+});
+// ===================================================
+// Glicemia
+// ===================================================
+app.get('/glicemiaa/:userId', (req, res) => {
+  const userId = req.params.userId;
+  const sql = 'SELECT * FROM user_Glicemia WHERE user_id = ?';
+  db.query(sql, [userId], (err, results) => {
+    if (err) {
+      console.error('Erro ao buscar registros de glicemia:', err);
+      res.status(500).send('Erro ao buscar registros de glicemia');
+      return;
+    }
+    res.json(results);
+  });
+});
+app.post('/glicemia', (req, res) => {
+  const { userId, glicemia, jejum, date } = req.body;
+  const sql = "INSERT INTO user_Glicemia (user_id, glicemia, jejum, date) VALUES (?, ?, ?, ?)";
+
+  db.query(sql, [userId, glicemia, jejum, date], (err, result) => {
+    if (err) {
+      console.error('Erro ao inserir registro de glicemia:', err);
+      res.status(500).send('Erro ao adicionar registro de glicemia');
+      return;
+    }
+    res.status(200).send({ insertId: result.insertId });
+  });
+});

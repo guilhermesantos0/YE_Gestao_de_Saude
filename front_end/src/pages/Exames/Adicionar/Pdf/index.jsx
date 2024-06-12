@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, Button, ScrollView } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
 import * as FileSystem from 'expo-file-system';
-import axios from 'axios';
+import { PDFDocument } from 'pdf-lib';
 
 export default function App() {
   const [pdfText, setPdfText] = useState('');
@@ -16,51 +16,29 @@ export default function App() {
 
       console.log('Document Picker result:', document);
 
-      if (!document.canceled && document.assets && document.assets.length > 0) {
-        const pdfUri = document.assets[0].uri;
+      if (document.type === 'success') {
+        const pdfUri = document.uri;
         console.log('Document selected:', pdfUri);
 
-        const pdfBase64 = await FileSystem.readAsStringAsync(pdfUri, {
+        const pdfBytes = await FileSystem.readAsStringAsync(pdfUri, {
           encoding: FileSystem.EncodingType.Base64,
         });
 
-        const pdfData = `data:application/pdf;base64,${pdfBase64}`;
-        const blob = await fetch(pdfData).then(res => res.blob());
+        const pdfDoc = await PDFDocument.load(pdfBytes);
+        const pages = pdfDoc.getPages();
+        let extractedText = '';
 
-        const formData = new FormData();
-        formData.append('pdf', {
-          uri: pdfUri,
-          name: document.assets[0].name,
-          type: document.assets[0].mimeType,
-        });
+        for (let i = 0; i < pages.length; i++) {
+          const text = await pages[i].getTextContent();
+          extractedText += text.items.map(item => item.str).join(' ');
+        }
 
-        // Log the backend URL
-        const backendURL = 'http://192.168.5.227:5000/extract-text';
-        console.log('Backend URL:', backendURL);
-
-        console.log('Sending PDF to backend');
-        const response = await axios.post(backendURL, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
-
-        console.log('Text extraction complete');
-        setPdfText(response.data.text);
+        setPdfText(extractedText);
       } else {
         console.log('Document selection cancelled or failed');
       }
     } catch (error) {
       console.error('Error extracting text from PDF:', error.message);
-      if (error.response) {
-        console.error('Response data:', error.response.data);
-        console.error('Response status:', error.response.status);
-        console.error('Response headers:', error.response.headers);
-      } else if (error.request) {
-        console.error('Request data:', error.request);
-      } else {
-        console.error('Error message:', error.message);
-      }
     }
   };
 

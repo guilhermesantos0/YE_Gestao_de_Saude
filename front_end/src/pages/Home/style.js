@@ -35,8 +35,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         fontSize: 20,
-        width: '20%',
-        marginTop: 20
+        width: '60%',
+        marginTop: 20,
+        textAlign: 'center'
     },
     examsContainer: {
         width: '100%',

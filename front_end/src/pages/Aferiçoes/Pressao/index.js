@@ -16,7 +16,7 @@ const BloodPressure = () => {
     try {
       const userId = await AsyncStorage.getItem('userId');
       if (userId) {
-        const response = await axios.get(`${config.apiBaseUrl}/bloodpressure/${userId}`);
+        const response = await axios.get(`${config.apiBaseUrl}/bloodpressurea/${userId}`);
         setRecords(response.data);
       }
     } catch (error) {

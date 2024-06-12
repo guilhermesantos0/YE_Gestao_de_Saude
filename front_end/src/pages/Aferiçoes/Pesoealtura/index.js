@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, TouchableOpacity, Alert, Modal, TextInput } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, Alert, Modal, TextInput, Button } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from './style';
@@ -51,6 +51,27 @@ const AlturaPeso = () => {
       setPeso('');
     } catch (error) {
       console.error('Erro ao adicionar registro de altura e peso:', error);
+    }
+  };
+
+  const handleEditProfile = async () => {
+    if (!altura || !peso) {
+      alert('Por favor, preencha todos os campos.');
+      return;
+    }
+
+    try {
+      const userId = await AsyncStorage.getItem('userId');
+      const updatedProfile = {
+        altura,
+        peso,
+      };
+
+      await axios.post(`${config.apiBaseUrl}/editProfile/${userId}`, updatedProfile);
+      alert('Perfil atualizado com sucesso!');
+    } catch (error) {
+      console.error('Erro ao atualizar perfil:', error);
+      alert('Erro ao atualizar perfil. Por favor, tente novamente.');
     }
   };
 
@@ -115,6 +136,23 @@ const AlturaPeso = () => {
           </View>
         </View>
       </Modal>
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder="Altura (cm)"
+          onChangeText={setAltura}
+          value={altura}
+          keyboardType="numeric"
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Peso (kg)"
+          onChangeText={setPeso}
+          value={peso}
+          keyboardType="numeric"
+        />
+        <Button title="Atualizar Perfil" onPress={handleEditProfile} />
+      </View>
       <VLibras />
     </View>
   );
