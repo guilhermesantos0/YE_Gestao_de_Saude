@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     examResult: {
-        width: '100%',
+        width: '110%',
         height: 55,
         borderRadius: 20,
         alignItems: 'center',
@@ -67,7 +67,10 @@ const styles = StyleSheet.create({
         backgroundColor: '#789484',
     },
     examResultText: {
+        fontSize: 11,
         textAlign: 'center',
+        alignItems: 'center',
+        justifyContent: 'center',
         color: '#FFF'
     },
 });

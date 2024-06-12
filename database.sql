@@ -95,6 +95,36 @@ CREATE TABLE IF NOT EXISTS `user_medicines` (
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 DEFAULT CHARSET = utf8mb4;
 
 # ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: user_Glicemia
+# ------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `user_Glicemia` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `glicemia` int(4) DEFAULT NULL,
+  `jejum` boolean DEFAULT NULL,
+  `date` varchar(50) DEFAULT NULL,
+  KEY `FK__1` (`id`),
+  CONSTRAINT `FK__1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  kEY `id` (`id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
+
+# ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: user_Pessao_Arterial
+# ------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `user_Pessao_Arterial` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `sistole` ~int(5) DEFAULT NULL,
+  `diastole` int(5) DEFAULT NULL,
+  `date` varchar(50) DEFAULT NULL,
+  KEY `FK__1` (`id`),
+  CONSTRAINT `FK__1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  kEY `id` (`id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
+
+# ------------------------------------------------------------
 # SCHEMA DUMP FOR TABLE: users
 # ------------------------------------------------------------
 

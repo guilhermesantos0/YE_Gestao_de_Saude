@@ -76,7 +76,7 @@ const Home = ({ navigation }) => {
 
                     <View style={styles.exam}>
                         <Text style={styles.examName}>Última verificação de peso e altura</Text>
-                        <View style={styles.examResult}><Text style={styles.examResultText}>{`${weight} kg\n${height} cm`}</Text></View>
+                        <View style={styles.examResult}><Text style={styles.examResultText}>{`${weight}KG\n${height}CM`}</Text></View>
                     </View>
 
                     <View style={styles.exam}>

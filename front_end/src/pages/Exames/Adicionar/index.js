@@ -19,7 +19,7 @@ const Exames = ({ navigation }) => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('Adicionar/Manual')}
+          onPress={() => navigation.navigate('Pdf')}
         >
           <Text style={styles.buttonText}>Adicionar Exame via PDF</Text>
         </TouchableOpacity>

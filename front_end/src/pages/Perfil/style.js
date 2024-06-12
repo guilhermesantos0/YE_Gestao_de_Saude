@@ -5,11 +5,13 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 20,
         backgroundColor: '#fff',
+        justifyContent: 'center',
     },
     title: {
         fontSize: 24,
         fontWeight: 'bold',
         marginBottom: 20,
+        textAlign: 'center',
     },
     input: {
         height: 40,
@@ -19,22 +21,41 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
     },
     saveButton: {
-        backgroundColor: '#007BFF',
-        padding: 10,
-        borderRadius: 5,
+        backgroundColor: '#789484',
+        padding: 15,
+        borderRadius: 10,
         alignItems: 'center',
+        marginVertical: 10,
     },
     saveButtonText: {
         color: '#fff',
         fontWeight: 'bold',
+        fontSize: 18,
     },
     logoffButton: {
-        backgroundColor: '#FF0000',
-        padding: 10,
-        borderRadius: 5,
+        backgroundColor: '#789484',
+        padding: 15,
+        borderRadius: 10,
         alignItems: 'center',
-        marginTop: 10
+        marginVertical: 10,
+    },
+    logoffButtonText: {
+        color: '#fff',
+        fontWeight: 'bold',
+        fontSize: 18,
+    },
+    additionalButton: {
+        backgroundColor: '#789484',
+        padding: 15,
+        borderRadius: 10,
+        alignItems: 'center',
+        marginVertical: 10,
+    },
+    additionalButtonText: {
+        color: '#fff',
+        fontWeight: 'bold',
+        fontSize: 18,
     },
 });
 
-export default styles
+export default styles;

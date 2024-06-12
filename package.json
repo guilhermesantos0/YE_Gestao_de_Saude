@@ -24,6 +24,8 @@
   },
   "dependencies": {
     "date-fns": "^3.6.0",
+    "expo-document-picker": "^12.0.1",
+    "expo-file-system": "^17.0.1",
     "react-native-video": "^6.2.0"
   }
 }
